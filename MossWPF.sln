@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MossWPF.Services", "MossWPF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MossWPF.Services.Interfaces", "MossWPF\Services\MossWPF.Services.Interfaces\MossWPF.Services.Interfaces.csproj", "{368D1BCD-1F08-4FA4-9236-623DFF2C4C79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MossWPF.Domain", "MossWPF\MossWPF.Models\MossWPF.Domain.csproj", "{0D30C9D3-A5AB-4BF3-BECB-8A39B8AD4EBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MossWPF.Domain", "MossWPF\MossWPF.Domain\MossWPF.Domain.csproj", "{0D30C9D3-A5AB-4BF3-BECB-8A39B8AD4EBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MossWPF.Tests", "MossWPF\Tests\MossWPF.Tests\MossWPF.Tests.csproj", "{CE251436-60B7-4704-B673-A3EFC12DE94D}"
 EndProject

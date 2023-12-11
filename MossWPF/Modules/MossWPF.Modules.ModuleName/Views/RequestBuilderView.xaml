@@ -4,11 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:colors="clr-namespace:MaterialDesignColors;assembly=MaterialDesignColors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:domain="clr-namespace:MossWPF.Domain;assembly=MossWPF.Domain"
     xmlns:local="clr-namespace:MossWPF.Modules.MossRequest.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
-    xmlns:domain="clr-namespace:MossWPF.Domain;assembly=MossWPF.Domain"
     xmlns:rules="clr-namespace:MossWPF.Core.Validation;assembly=MossWPF.Core"
     Width="720"
     d:DesignHeight="550"
@@ -58,7 +58,7 @@
         <Grid.ColumnDefinitions>
 
             <ColumnDefinition Width="187*" />
-            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="53*" />
             <ColumnDefinition Width="187*" />
             <ColumnDefinition Width="53*" />
             <ColumnDefinition Width="240*" />
@@ -67,16 +67,18 @@
         <ComboBox
             x:Name="OutlinedComboBox"
             Grid.Row="1"
+            Grid.ColumnSpan="2"
             Margin="0,8,8,8"
             materialDesign:HintAssist.Hint="Programming Language"
             DisplayMemberPath="Name"
             ItemsSource="{Binding Languages}"
             SelectedItem="{Binding MossSubmission.SelectedLanguage}"
-            Style="{DynamicResource MaterialDesignFilledComboBox}" Grid.ColumnSpan="2" />
+            Style="{DynamicResource MaterialDesignFilledComboBox}" />
         <TextBox
             x:Name="TitleTextBox"
+            Grid.ColumnSpan="2"
             Margin="0,8,8,8"
-            materialDesign:HintAssist.Hint="Title (Optional)" Grid.ColumnSpan="2" />
+            materialDesign:HintAssist.Hint="Title (Optional)" />
         <TextBox
             x:Name="SensitivityTextBox"
             Grid.Column="2"
@@ -133,7 +135,7 @@
             Grid.Column="1"
             IsChecked="{Binding MossSubmission.UseDirectoryMode}"
             Style="{StaticResource MaterialDesignSwitchToggleButton}"
-            ToolTip="Specifies that submissions are by directory, not by file"  />
+            ToolTip="Specifies that submissions are by directory, not by file" />
 
 
         <TextBlock
@@ -146,7 +148,7 @@
             Grid.Column="3"
             IsChecked="{Binding MossSubmission.UseExperimental}"
             Style="{StaticResource MaterialDesignSwitchToggleButton}"
-            ToolTip="Send request to experimental server"  />
+            ToolTip="Send request to experimental server" />
 
 
 
@@ -164,9 +166,7 @@
         <StackPanel
             Grid.Row="4"
             Grid.Column="0"
-            
-            
-            Orientation="Horizontal" >
+            Orientation="Horizontal">
             <StackPanel.Resources>
                 <Style
                     x:Key="RadioTabCondensed"
@@ -182,7 +182,6 @@
                 Command="{Binding ShowSourceFiles}"
                 Content="Source"
                 IsChecked="True"
-               
                 Style="{DynamicResource RadioTabCondensed}" />
             <RadioButton
                 Margin="0"
@@ -196,7 +195,7 @@
         <Border
             Grid.Row="3"
             Grid.ColumnSpan="4"
-            Margin="0 8 0 8"
+            Margin="0,8,0,8"
             Padding="8"
             Background="{DynamicResource AttentionToActionBrush}"
             BorderBrush="{DynamicResource SecondaryHueMidBrush}"
@@ -239,8 +238,10 @@
             Grid.ColumnSpan="2"
             Margin="16,8,16,8"
             Padding="8"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             Background="{DynamicResource DarkBlueControlSurfaceBrushOpacity_50}"
-            CornerRadius="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+            CornerRadius="8">
             <StackPanel Orientation="Vertical">
                 <Button
                     x:Name="BaseFilesSideButton"
@@ -268,9 +269,7 @@
                         IsChecked="{Binding FilterFileTypes}"
                         IsEnabled="{Binding MossSubmission.IsLanguageSelected}" />
                 </StackPanel>
-                <Button
-                    Margin="8"
-                    Style="{DynamicResource MaterialDesignOutlinedButton}">
+                <Button Margin="8" Style="{DynamicResource MaterialDesignOutlinedButton}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="FileDocumentRemove" />
                         <TextBlock Margin="4,0,0,0" Text="Clear Selection" />

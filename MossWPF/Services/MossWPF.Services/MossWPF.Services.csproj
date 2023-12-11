@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MossWPF.Models\MossWPF.Domain.csproj" />
+    <ProjectReference Include="..\..\MossWPF.Domain\MossWPF.Domain.csproj" />
     <ProjectReference Include="..\MossWPF.Services.Interfaces\MossWPF.Services.Interfaces.csproj" />
   </ItemGroup>
 
