@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A9DE1427
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{26CEB8F2-4CB8-4AFF-ADFB-D9A2608CF005}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MossWPF.Modules.MossRequest", "MossWPF\Modules\MossWPF.Modules.ModuleName\MossWPF.Modules.MossRequest.csproj", "{4B88BAF7-B7BB-4401-8882-C981E084923F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MossWPF.Modules.MossRequest", "MossWPF\Modules\MossWPF.Modules.MossRequest\MossWPF.Modules.MossRequest.csproj", "{4B88BAF7-B7BB-4401-8882-C981E084923F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EAE22E15-E6B4-4E5D-A65C-AB78F69186FA}"
 EndProject
