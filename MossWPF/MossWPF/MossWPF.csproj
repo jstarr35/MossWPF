@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+    <None Remove="Resources\MossLogo3.png" />
+    <None Remove="Resources\moss_logo_white.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.10" />
+    <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Modules\MossWPF.Modules.MossResult\MossWPF.Modules.MossResult.csproj" />
+    <ProjectReference Include="..\MossWPF.Core\MossWPF.Core.csproj" />
+    <ProjectReference Include="..\Modules\MossWPF.Modules.ModuleName\MossWPF.Modules.MossRequest.csproj" />
+    <ProjectReference Include="..\MossWPF.Models\MossWPF.Domain.csproj" />
+    <ProjectReference Include="..\Services\MossWPF.Services.Interfaces\MossWPF.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\Services\MossWPF.Services\MossWPF.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\Dialogs\" />
+    <Folder Include="Core\Regions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MossLogo3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\moss_logo_white.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,136 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="CardinalRed">#8c1515</Color>
+    <Color x:Key="Magnolia">#f7f2fa</Color>
+    <Color x:Key="ProcessBlack">#2e2d29</Color>
+    <Color x:Key="CoolGrey">#53565a</Color>
+    <Color x:Key="EerieBlack">#141414</Color>
+    <Color x:Key="PaloAlto">#175e54</Color>
+    <Color x:Key="CardinalRedLight">#b83a4b</Color>
+    <Color x:Key="BrickDark">#42081b</Color>
+    <Color x:Key="LagunitaLight">#009ab4</Color>
+    <Color x:Key="EtonBlue">#85B79D</Color>
+    <Color x:Key="ColorXiketic">#1C0000</Color>
+    <Color x:Key="ColorEerieBlack">#141414</Color>
+    <Color x:Key="PrimaryForeground">White</Color>
+    <Color x:Key="VSBlue">#7160e8</Color>
+    <Color x:Key="PliniDarkPurple">#423c74</Color>
+    <Color x:Key="PliniBlue">#6752f8</Color>
+
+    <LinearGradientBrush x:Key="PliniGradient">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Color="{DynamicResource PliniDarkPurple}" />
+            <GradientStop Color="{DynamicResource PliniBlue}" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="BrushCardinalRed" Color="{DynamicResource CardinalRed}" />
+    <SolidColorBrush x:Key="BrushMagnolia" Color="{DynamicResource Magnolia}" />
+    <SolidColorBrush x:Key="BrushProcessBlack" Color="{DynamicResource ProcessBlack}" />
+    <SolidColorBrush x:Key="BrushCoolGrey" Color="{DynamicResource CoolGrey}" />
+    <SolidColorBrush x:Key="BrushEerieBlack" Color="{DynamicResource EerieBlack}" />
+    <SolidColorBrush x:Key="BrushPaloAlto" Color="{DynamicResource PaloAlto}" />
+    <SolidColorBrush x:Key="BrushCardinalRedLight" Color="{DynamicResource CardinalRedLight}" />
+    <SolidColorBrush x:Key="BrushBrickDark" Color="{DynamicResource BrickDark}" />
+    <SolidColorBrush x:Key="BrushLagunitaLight" Color="{DynamicResource LagunitaLight}" />
+    <SolidColorBrush x:Key="BrushEtonBlue" Color="{DynamicResource EtonBlue}" />
+    <SolidColorBrush x:Key="BrushXiketic" Color="{DynamicResource ColorXiketic}" />
+
+
+    <Color x:Key="cardinalred_50">#f1e3e3</Color>
+    <Color x:Key="cardinalred_100">#ddb9b9</Color>
+    <Color x:Key="cardinalred_200">#c68a8a</Color>
+    <Color x:Key="cardinalred_300">#af5b5b</Color>
+    <Color x:Key="cardinalred_400">#9d3838</Color>
+    <Color x:Key="cardinalred_500">#8c1515</Color>
+    <Color x:Key="cardinalred_600">#841212</Color>
+    <Color x:Key="cardinalred_700">#790f0f</Color>
+    <Color x:Key="cardinalred_800">#6f0c0c</Color>
+    <Color x:Key="cardinalred_900">#5c0606</Color>
+    <Color x:Key="cardinalred_A100">#ff8e8e</Color>
+    <Color x:Key="cardinalred_A200">#ff5b5b</Color>
+    <Color x:Key="cardinalred_A400">#ff2828</Color>
+    <Color x:Key="cardinalred_A700">#ff0f0f</Color>
+    <Color x:Key="paloalto_50">#e3ecea</Color>
+    <Color x:Key="paloalto_100">#b9cfcc</Color>
+    <Color x:Key="paloalto_200">#8bafaa</Color>
+    <Color x:Key="paloalto_300">#5d8e87</Color>
+    <Color x:Key="paloalto_400">#3a766e</Color>
+    <Color x:Key="paloalto_500">#175e54</Color>
+    <Color x:Key="paloalto_600">#14564d</Color>
+    <Color x:Key="paloalto_700">#114c43</Color>
+    <Color x:Key="paloalto_800">#0d423a</Color>
+    <Color x:Key="paloalto_900">#073129</Color>
+    <Color x:Key="paloalto_A100">#6bffdf</Color>
+    <Color x:Key="paloalto_A200">#38ffd3</Color>
+    <Color x:Key="paloalto_A400">#05ffc8</Color>
+    <Color x:Key="paloalto_A700">#00ebb7</Color>
+    <Color x:Key="brickdark_50">#e8e1e4</Color>
+    <Color x:Key="brickdark_100">#c6b5bb</Color>
+    <Color x:Key="brickdark_200">#a1848d</Color>
+    <Color x:Key="brickdark_300">#7b525f</Color>
+    <Color x:Key="brickdark_400">#5e2d3d</Color>
+    <Color x:Key="brickdark_500">#42081b</Color>
+    <Color x:Key="brickdark_600">#3c0718</Color>
+    <Color x:Key="brickdark_700">#330614</Color>
+    <Color x:Key="brickdark_800">#2b0410</Color>
+    <Color x:Key="brickdark_900">#1d0208</Color>
+    <Color x:Key="brickdark_A100">#ff5b6e</Color>
+    <Color x:Key="brickdark_A200">#ff2841</Color>
+    <Color x:Key="brickdark_A400">#f4001d</Color>
+    <Color x:Key="brickdark_A700">#da001a</Color>
+    <Color x:Key="eerieblack_50">#e3e3e3</Color>
+    <Color x:Key="eerieblack_100">#b9b9b9</Color>
+    <Color x:Key="eerieblack_200">#8a8a8a</Color>
+    <Color x:Key="eerieblack_300">#5b5b5b</Color>
+    <Color x:Key="eerieblack_400">#373737</Color>
+    <Color x:Key="eerieblack_500">#141414</Color>
+    <Color x:Key="eerieblack_600">#121212</Color>
+    <Color x:Key="eerieblack_700">#0e0e0e</Color>
+    <Color x:Key="eerieblack_800">#0b0b0b</Color>
+    <Color x:Key="eerieblack_900">#060606</Color>
+    <Color x:Key="eerieblack_A100">#ff4e4e</Color>
+    <Color x:Key="eerieblack_A200">#ff1b1b</Color>
+    <Color x:Key="eerieblack_A400">#e70000</Color>
+    <Color x:Key="eerieblack_A700">#ce0000</Color>
+    <Color x:Key="coolgrey_50">#eaebeb</Color>
+    <Color x:Key="coolgrey_100">#cbccce</Color>
+    <Color x:Key="coolgrey_200">#a9abad</Color>
+    <Color x:Key="coolgrey_300">#87898c</Color>
+    <Color x:Key="coolgrey_400">#6d6f73</Color>
+    <Color x:Key="coolgrey_500">#53565a</Color>
+    <Color x:Key="coolgrey_600">#4c4f52</Color>
+    <Color x:Key="coolgrey_700">#424548</Color>
+    <Color x:Key="coolgrey_800">#393c3f</Color>
+    <Color x:Key="coolgrey_900">#292b2e</Color>
+    <Color x:Key="coolgrey_A100">#86bef7</Color>
+    <Color x:Key="coolgrey_A200">#57a5f3</Color>
+    <Color x:Key="coolgrey_A400">#188bff</Color>
+    <Color x:Key="coolgrey_A700">#007ffd</Color>
+
+    <Color x:Key="GradStop7">#1e2431</Color>
+    <Color x:Key="GradStop6">#1f2633</Color>
+    <Color x:Key="GradStop5">#202734</Color>
+    <Color x:Key="GradStop4">#2d3748</Color>
+    <Color x:Key="GradStop3">#283141</Color>
+    <Color x:Key="GradStop2">#2b3545</Color>
+    <Color x:Key="GradStop1">#4a5568</Color>
+
+    <Color x:Key="LightBlueAccentSurface">#90cdf4</Color>
+    <Color x:Key="DarkBlueControlSurface">#1a202c</Color>
+    <Color x:Key="SecondLevelBlueSurface">#2d3748</Color>
+    <Color x:Key="ThirdLevelBlueSurface">#4a5568</Color>
+    <Color x:Key="BluePrimaryHue">#456de4</Color>
+    <Color x:Key="BluePrimaryBaseHue">#325ddf</Color>
+    <Color x:Key="BluePrimaryMidHue">#6789f0</Color>
+    <Color x:Key="BluePrimaryLightHue">#7f9df5</Color>
+    <Color x:Key="GreenAccent">#68d391</Color>
+    <Color x:Key="RoseAccent">#f56565</Color>
+
+    <SolidColorBrush x:Key="DarkBlueControlSurfaceBrush" Color="{DynamicResource DarkBlueControlSurface}" />
+    <SolidColorBrush
+        x:Key="DarkBlueControlSurfaceBrushOpacity_50"
+        Opacity="0.5"
+        Color="{DynamicResource DarkBlueControlSurface}" />
+    <SolidColorBrush x:Key="LightBlueAccentSurfaceBrush" Color="{DynamicResource LightBlueAccentSurface}" />
+    <SolidColorBrush x:Key="SecondLevelBlueSurfaceBrush" Color="{DynamicResource SecondLevelBlueSurface}" />
+    <SolidColorBrush x:Key="ThirdLevelBlueSurfaceBrush" Color="{DynamicResource ThirdLevelBlueSurface}" />
+</ResourceDictionary>

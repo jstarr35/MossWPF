@@ -1,0 +1,91 @@
+﻿<prism:PrismApplication
+    x:Class="MossWPF.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MossWPF"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--<materialDesign:BundledTheme
+                    BaseTheme="Dark"
+                    PrimaryColor="Teal"
+                    SecondaryColor="Pink" />-->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/MaterialDesignDarkTheme.xaml" />
+                <ResourceDictionary Source="./Resources/ImageDictionary.xaml"/>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/MossWPF;component/Resources/Styles/Colors.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{DynamicResource EtonBlue}" />
+                    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="{DynamicResource EerieBlack}" />
+                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{DynamicResource LightBlueAccentSurface}" />
+                    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="White" />
+                    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="{DynamicResource DarkBlueControlSurface}" />
+                    <LinearGradientBrush x:Key="PrimaryHueDarkGradient">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.5" Color="{DynamicResource PliniDarkPurple}" />
+                            <GradientStop Color="{DynamicResource PliniBlue}" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="{DynamicResource PrimaryForeground}" />
+
+                    <LinearGradientBrush x:Key="BackgroundGradientDark">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.9" Color="{DynamicResource GradStop7}" />
+                            <!--<GradientStop Color="{DynamicResource GradStop6}" />
+                            <GradientStop Color="{DynamicResource GradStop5}" />
+                            <GradientStop Offset="0.5" Color="{DynamicResource GradStop4}" />
+                            <GradientStop Offset="0.3" Color="{DynamicResource GradStop3}" />-->
+                            <GradientStop Offset="0.1" Color="{DynamicResource GradStop2}" />
+                            <!--<GradientStop Color="{DynamicResource GradStop1}" />-->
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+
+                    <!--  accent  -->
+                    <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="{DynamicResource EtonBlue}" />
+                    <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FFFFFF" />
+
+                    
+                </ResourceDictionary>
+                <!--  primary colors  -->
+                <!--<ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Teal.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{StaticResource Primary100}" />
+                    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="{StaticResource Primary100Foreground}" />
+                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{StaticResource Primary500}" />
+                    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="{StaticResource Primary500Foreground}" />
+                    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="{StaticResource Primary600}" />
+                    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="{StaticResource Primary600Foreground}" />
+                </ResourceDictionary>
+
+                -->
+                <!--  accent color  -->
+                <!--
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Pink.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                    <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="{StaticResource Accent400}" />
+                    <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="{StaticResource Accent400Foreground}" />
+                </ResourceDictionary>-->
+
+                <!--<ResourceDictionary>
+                    <SolidColorBrush x:Key="MaterialDesignBackground" Color="{Binding Color, Source={StaticResource MaterialDesignPaper}}" />
+                </ResourceDictionary>-->
+
+                <ResourceDictionary>
+                    <Style BasedOn="{StaticResource MaterialDesignScrollViewer}" TargetType="ScrollViewer">
+                        <Setter Property="materialDesign:ScrollViewerAssist.IgnorePadding" Value="False" />
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:PrismApplication>
