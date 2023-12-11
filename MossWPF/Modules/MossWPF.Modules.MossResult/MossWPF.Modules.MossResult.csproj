@@ -8,6 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MossWPF.Core\MossWPF.Core.csproj" />
-    <ProjectReference Include="..\..\MossWPF.Models\MossWPF.Domain.csproj" />
+    <ProjectReference Include="..\..\MossWPF.Domain\MossWPF.Domain.csproj" />
   </ItemGroup>
 </Project>

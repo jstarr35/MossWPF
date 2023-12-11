@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/MaterialDesignDarkTheme.xaml" />
-                <ResourceDictionary Source="./Resources/ImageDictionary.xaml"/>
+                <ResourceDictionary Source="./Resources/ImageDictionary.xaml" />
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
                         <ResourceDictionary Source="pack://application:,,,/MossWPF;component/Resources/Styles/Colors.xaml" />
@@ -50,7 +50,7 @@
                     <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="{DynamicResource EtonBlue}" />
                     <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FFFFFF" />
 
-                    
+
                 </ResourceDictionary>
                 <!--  primary colors  -->
                 <!--<ResourceDictionary>
