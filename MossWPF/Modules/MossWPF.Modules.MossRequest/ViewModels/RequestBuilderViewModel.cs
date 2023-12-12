@@ -140,6 +140,16 @@ namespace MossWPF.Modules.MossRequest.ViewModels
             Files = MossSubmission.BaseFiles;
         }
 
+        private DelegateCommand _clearFilesCommand;
+        public DelegateCommand ClearFilesCommand =>
+            _clearFilesCommand ??= new DelegateCommand(ExecuteClearFilesCommand);
+
+        void ExecuteClearFilesCommand()
+        {
+            MossSubmission.BaseFiles.Clear();
+            MossSubmission.SourceFiles.Clear();
+        }
+
         private DelegateCommand _sendRequest;
         public DelegateCommand SendRequestCommand =>
             _sendRequest ??= new DelegateCommand(ExecuteSendRequest, IsValidForm)
@@ -265,15 +275,18 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         {
             var p = new NavigationParameters
             {
-                { "submission", MossSubmission },
-                { "resultsLink", Response.Trim('\0').Trim() }
+                { NavigationParameterKeys.MossSubmission, MossSubmission },
+                { NavigationParameterKeys.ResultsLink, Response.Trim('\0').Trim() }
             };
             _regionManager.RequestNavigate(RegionNames.ContentRegion, uri, p);
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            //do something
+            if (navigationContext.Parameters.ContainsKey(NavigationParameterKeys.MossSubmission))
+            {
+                MossSubmission = navigationContext.Parameters.GetValue<MossSubmission>(NavigationParameterKeys.MossSubmission);
+            }
         }
     }
 }
