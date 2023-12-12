@@ -10,8 +10,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
     xmlns:rules="clr-namespace:MossWPF.Core.Validation;assembly=MossWPF.Core"
-    Width="720"
-    d:DesignHeight="550"
+    MinWidth="720"
+    MinHeight="550"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -269,7 +269,10 @@
                         IsChecked="{Binding FilterFileTypes}"
                         IsEnabled="{Binding MossSubmission.IsLanguageSelected}" />
                 </StackPanel>
-                <Button Margin="8" Style="{DynamicResource MaterialDesignOutlinedButton}">
+                <Button
+                    Margin="8"
+                    Command="{Binding ClearFilesCommand}"
+                    Style="{DynamicResource MaterialDesignOutlinedButton}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="FileDocumentRemove" />
                         <TextBlock Margin="4,0,0,0" Text="Clear Selection" />
@@ -283,7 +286,7 @@
                     Style="{DynamicResource MaterialDesignRaisedButton}">
                     <TextBlock
                         Margin="0"
-                        FontFamily="Aquire"
+                        FontFamily="Broadway"
                         FontSize="24"
                         FontWeight="Bold"
                         Text="M" />
