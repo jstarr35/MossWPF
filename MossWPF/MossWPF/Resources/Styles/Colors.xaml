@@ -133,4 +133,5 @@
     <SolidColorBrush x:Key="LightBlueAccentSurfaceBrush" Color="{DynamicResource LightBlueAccentSurface}" />
     <SolidColorBrush x:Key="SecondLevelBlueSurfaceBrush" Color="{DynamicResource SecondLevelBlueSurface}" />
     <SolidColorBrush x:Key="ThirdLevelBlueSurfaceBrush" Color="{DynamicResource ThirdLevelBlueSurface}" />
+    <SolidColorBrush x:Key="BluePrimaryHueBrush" Color="{DynamicResource BluePrimaryHue}"/>
 </ResourceDictionary>

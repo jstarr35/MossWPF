@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MossWPF.Modules.MossRequest.Views
+namespace MossWPF.Views
 {
     /// <summary>
-    /// Interaction logic for ResultsBrowser.xaml
+    /// Interaction logic for AppBar.xaml
     /// </summary>
-    public partial class ResultsBrowser : UserControl
+    public partial class AppBar : UserControl
     {
-        public ResultsBrowser()
+        public AppBar()
         {
             InitializeComponent();
         }

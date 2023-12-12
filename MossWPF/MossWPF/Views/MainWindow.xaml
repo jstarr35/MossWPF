@@ -1,31 +1,67 @@
-﻿<mde:MaterialWindow
+﻿<mde:MaterialWindow xmlns:Views="clr-namespace:MossWPF.Views" 
     x:Class="MossWPF.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:core="clr-namespace:MossWPF.Core;assembly=MossWPF.Core"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-     xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
+    xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
     xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
     Title="{Binding Title}"
-    MinWidth="540"
-    MinHeight="360"
+    MinWidth="800"
+    MinHeight="740"
+    MaxWidth="1200"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="{DynamicResource BackgroundGradientDark}"
     FontFamily="{materialDesign:MaterialDesignFont}"
-    Icon="pack://application:,,,/MossWPF;component/Resources/moss_logo_white.ico"
+    Icon="{DynamicResource AppIcon}"
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="29*" />
-            <RowDefinition Height="272*"/>
-            <RowDefinition Height="43*" />
+            <RowDefinition Height="64" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="64" />
         </Grid.RowDefinitions>
-        <mde:AppBar AppIcon="{StaticResource AppLogo}" BackCommand="{Binding NavigateCommand}" ShowBackButton="{Binding CanNavigateBack}" Title="{Binding Title}" Type="Dense"/>
-        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" Margin="0,0,0,43" Grid.RowSpan="3" />
-        <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static core:RegionNames.BottomNavigation}" />
+        <Views:AppBar />
+        <!--<ToolBarTray>
+            <ToolBar ClipToBounds="False" Style="{DynamicResource MaterialDesignToolBar}">
+                <Button
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="Back"
+                    IsEnabled="{Binding CanNavigateBack}">
+                    <materialDesign:PackIcon Kind="ArrowBack" />
+                </Button>
+                <Button
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="Forward"
+                    IsEnabled="{Binding CanNavigateForward}">
+                    <materialDesign:PackIcon Kind="ArrowForward" />
+                </Button>
+                <Separator />
+                <Menu IsMainMenu="True">
+                    <MenuItem Header="_File">
+                        <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSaveOutline}" />
+                        <MenuItem Header="New" Icon="{materialDesign:PackIcon Kind=TextBoxPlusOutline}" />
+                        <MenuItem Header="Open" Icon="{materialDesign:PackIcon Kind=FolderOpenOutline}" />
+                        <Separator />
+                        <MenuItem
+                            Header="Exit"
+                            Icon="{materialDesign:PackIcon Kind=ExitToApp}"
+                            InputGestureText="Ctrl+E" />
+                        
+                        
+                    </MenuItem>
+                    
+                </Menu>
+            </ToolBar>
+        </ToolBarTray>-->
+        <ContentControl
+            Grid.Row="1"
+            Margin="16,16,16,16"
+            prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
+        <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static core:RegionNames.BottomNavigation}" Margin="0,179,0,0" />
     </Grid>
 </mde:MaterialWindow>
