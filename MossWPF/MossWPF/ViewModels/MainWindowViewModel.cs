@@ -7,6 +7,9 @@ using Microsoft.Extensions.Configuration;
 using MossWPF.Domain;
 using Prism.Events;
 using MossWPF.Core.Events;
+using MossWPF.Core.Dialogs;
+using MaterialDesignThemes.Wpf;
+using Prism.Services.Dialogs;
 
 namespace MossWPF.ViewModels
 {
@@ -19,6 +22,53 @@ namespace MossWPF.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+        
+        
+
+        private DelegateCommand<string> _navigateCommand;
+        private readonly IRegionManager _regionManager;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IDialogService _dialogService;
+
+        public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IApplicationCommands applicationCommands, IDialogService dialogService)
+        {
+            _regionManager = regionManager;
+            applicationCommands.NavigateCommand.RegisterCommand(NavigateCommand);
+            _eventAggregator = eventAggregator;
+            eventAggregator.GetEvent<CanNavigateBackEvent>().Subscribe((x) => { CanNavigateBack = x; });
+            eventAggregator.GetEvent<CanNavigateForwardEvent>().Subscribe((x) => { CanNavigateForward = x; });
+            _dialogService = dialogService;
+            ShowSettingsDialogIfNoUserId();
+
+            eventAggregator.GetEvent<RequestInitializationEvent>().Publish(new System.Collections.Generic.Dictionary<string, string>()
+            {
+                { "UserId",Properties.Settings.Default.UserId }
+            });
+        }
+
+        void ShowSettingsDialogIfNoUserId()
+        {
+            if(Properties.Settings.Default.UserId == "" || Properties.Settings.Default.UserId == null)
+            {
+                _dialogService.ShowDialog("UserSetupDialog", result =>
+                {
+                    if (result.Result == ButtonResult.OK)
+                    {
+                        var id = result.Parameters.GetValue<string>("UserId");
+                        Properties.Settings.Default.UserId = id;
+                        Properties.Settings.Default.Save();
+                        _eventAggregator.GetEvent<RequestInitializationEvent>().Publish(new System.Collections.Generic.Dictionary<string, string>()
+                        {
+                            { "UserId",id }
+                        });
+                    }
+                });
+            }
+        }
+
+        
+
+        #region Navigation
         private bool _canNavigateBack;
         public bool CanNavigateBack
         {
@@ -26,12 +76,12 @@ namespace MossWPF.ViewModels
             set { SetProperty(ref _canNavigateBack, value); }
         }
 
-        private DelegateCommand<string> _navigateCommand;
-        private readonly IRegionManager _regionManager;
-        private readonly IEventAggregator _eventAggregator;
-        private readonly IConfigurationRoot _config;
-        private readonly ServerSettings _serverSettings;
-        private readonly IAppConfiguration _appConfiguration;
+        private bool _canNavigateForward;
+        public bool CanNavigateForward
+        {
+            get { return _canNavigateForward; }
+            set { SetProperty(ref _canNavigateForward, value); }
+        }
 
         public DelegateCommand<string> NavigateCommand =>
             _navigateCommand ??= new DelegateCommand<string>(ExecuteNavigateCommand);
@@ -40,18 +90,18 @@ namespace MossWPF.ViewModels
         public DelegateCommand NavigateBackCommand =>
             _navigateBackCommand ??= new DelegateCommand(ExecuteNavigateBackCommand);
 
-        void ExecuteNavigateBackCommand()
+        private DelegateCommand _navigateForwardCommand;
+        public DelegateCommand NavigateForwardCommand =>
+            _navigateForwardCommand ??= new DelegateCommand(ExecuteNavigateForwardCommand);
+
+        private void ExecuteNavigateForwardCommand()
         {
-            _eventAggregator.GetEvent<BackNavigationEvent>().Publish("RequestView");
+            _eventAggregator.GetEvent<ForwardNavigationEvent>().Publish("ResultsBrowser");
         }
 
-        public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IApplicationCommands applicationCommands, IAppConfiguration config)
+        void ExecuteNavigateBackCommand()
         {
-            _regionManager = regionManager;
-            applicationCommands.NavigateCommand.RegisterCommand(NavigateCommand);
-            _appConfiguration = config;
-            _eventAggregator = eventAggregator;
-            eventAggregator.GetEvent<CanNavigateBackEvent>().Subscribe((x) => { CanNavigateBack = x; });
+            _eventAggregator.GetEvent<BackNavigationEvent>().Publish("RequestBuilderView");
         }
 
         void ExecuteNavigateCommand(string navigationPath)
@@ -61,5 +111,37 @@ namespace MossWPF.ViewModels
             else
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, navigationPath);
         }
+        #endregion
+
+        #region UserSetupDialog
+        private DelegateCommand _openUserSetupDialog;
+        public DelegateCommand OpenUserSetupDialog =>
+            _openUserSetupDialog ??= new DelegateCommand(ExecuteOpenUserSetupDialog);
+
+        void ExecuteOpenUserSetupDialog()
+        {
+            IsUserSettingsDialogOpen = true;
+        }
+
+        private DelegateCommand _acceptUserSettingsDialog;
+        public DelegateCommand AcceptUserSettingsDialog =>
+            _acceptUserSettingsDialog ??= new DelegateCommand(ExecuteAcceptUserSettingsDialog);
+
+        void ExecuteAcceptUserSettingsDialog()
+        {
+            IsUserSettingsDialogOpen= false;
+            _eventAggregator.GetEvent<RequestInitializationEvent>().Publish(new System.Collections.Generic.Dictionary<string, string>()
+            {
+                { "UserId",Properties.Settings.Default.UserId }
+            });
+        }
+
+        private bool _isUserSettingsDialogOpen;
+        public bool IsUserSettingsDialogOpen
+        {
+            get { return _isUserSettingsDialogOpen; }
+            set { SetProperty(ref _isUserSettingsDialogOpen, value); }
+        }
+        #endregion
     }
 }

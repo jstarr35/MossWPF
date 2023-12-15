@@ -2,7 +2,7 @@
 
 namespace MossWPF.Core.Events
 {
-    public class BackNavigationEvent : PubSubEvent<string>
+    public class ForwardNavigationEvent : PubSubEvent<string>
     {
     }
 }

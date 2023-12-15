@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MossWPF.Domain
 {
@@ -76,6 +77,37 @@ namespace MossWPF.Domain
             {
                 ProgrammingLanguages.Add(language);
             }
+        }
+
+        private string _filePath;
+        public AppConfiguration(string filePath)
+        {
+            _filePath = filePath;
+            var settings = File.ReadAllText(filePath);
+            var config = JsonSerializer.Deserialize<AppConfigurationProxy>(settings);
+            UserOptions = config.UserOptions;
+            MossDefaultOptions = config.MossDefaultOptions;
+            ServerSettings = config.ServerSettings;
+            ScriptSettings = config.ScriptSettings;
+            foreach (var language in config.ProgrammingLanguages)
+            {
+                ProgrammingLanguages.Add(language);
+            }
+        }
+
+        public async Task SaveConfiguration(CancellationToken token=default)
+        {
+            using var writer = File.OpenWrite(_filePath);
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Converters =
+                {
+                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                }
+            };
+            await JsonSerializer.SerializeAsync(writer, this, options, token);
+            await writer.DisposeAsync();
         }
     }
 

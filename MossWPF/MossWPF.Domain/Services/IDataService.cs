@@ -1,4 +1,4 @@
-﻿namespace MossWPF.Services.Interfaces
+﻿namespace MossWPF.Domain.Services
 {
     public interface IDataService<T>
     {

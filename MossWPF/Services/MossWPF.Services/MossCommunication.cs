@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Windows.Automation;
 
 namespace MossWPF.Services
 {
@@ -46,7 +47,7 @@ namespace MossWPF.Services
 
         public void SendOptions()
         {
-            SendOption(settings.ScriptSettings.Opt_moss, settings.UserOptions.UserId.ToString(CultureInfo.InvariantCulture));
+            SendOption(settings.ScriptSettings.Opt_moss, request.UserId);
             SendOption(settings.ScriptSettings.Opt_d, request.UseDirectoryMode ? "1" : "0");
             SendOption(settings.ScriptSettings.Opt_x, request.UseExperimental ? "1" : "0");
             SendOption(settings.ScriptSettings.Opt_m, request.Sensitivity.ToString(CultureInfo.InvariantCulture));

@@ -20,7 +20,7 @@
                 <Button
                     md:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
                     Command="{Binding NavigateCommand}"
-                    CommandParameter="Back"
+                    CommandParameter="RequestBuilderView"
                     IsEnabled="{Binding CanNavigateBack}"
                     Style="{DynamicResource MaterialDesignToolForegroundButton}">
                     <md:PackIcon Kind="ArrowBack" />
@@ -36,25 +36,24 @@
                 <Button Style="{DynamicResource MaterialDesignToolForegroundButton}">
 
                     <TextBlock
-                        
                         FontFamily="Broadway"
-                        FontSize="22" Foreground="{DynamicResource MaterialDesignDarkForeground}"
-                        >
+                        FontSize="22"
+                        Foreground="{DynamicResource MaterialDesignDarkForeground}">
                         M
                     </TextBlock>
-
-
                 </Button>
             </StackPanel>
             <md:PopupBox
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Left"
                 DockPanel.Dock="Right"
-                PlacementMode="BottomAndAlignRightEdges"
+                PlacementMode="LeftAndAlignMiddles"
                 StaysOpen="False">
                 <Menu IsMainMenu="True">
                     <MenuItem Header="Save" Icon="{md:PackIcon Kind=ContentSaveOutline}" />
                     <MenuItem Header="New" Icon="{md:PackIcon Kind=TextBoxPlusOutline}" />
                     <MenuItem Header="Open" Icon="{md:PackIcon Kind=FolderOpenOutline}" />
+                    <Separator />
+                    <MenuItem Header="User ID" Icon="{md:PackIcon Kind=User}" />
                     <Separator />
                     <MenuItem
                         Header="Exit"

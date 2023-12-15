@@ -13,8 +13,8 @@ namespace MossWPF.Modules.MossResult
 
         public MossResultModule(IRegionManager regionManager)
         {
-            _regionManager = regionManager;
-            _regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(ResultsBrowser));
+            //_regionManager = regionManager;
+            //_regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(ResultsBrowser));
         }
 
         public void OnInitialized(IContainerProvider containerProvider)

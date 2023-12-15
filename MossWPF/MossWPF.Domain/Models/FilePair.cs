@@ -7,6 +7,8 @@
         public int SecondFileId { get; set; }
         public virtual SubmissionFile SecondFile { get; set; }
         public int LinesMatched { get; set; }
-        public int PercentageScore { get; set; }
+        public int FirstFilePercentageScore { get; set; }
+        public int SecondFilePercentageScore { get; set; }
+        public string Link { get; set; }
     }
 }
