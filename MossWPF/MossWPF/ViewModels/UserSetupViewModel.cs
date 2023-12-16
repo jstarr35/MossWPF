@@ -2,14 +2,9 @@
 using MossWPF.Core;
 using MossWPF.Core.Mvvm;
 using MossWPF.Domain;
+using MossWPF.Domain.DTOs;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace MossWPF.ViewModels
 {
@@ -18,7 +13,7 @@ namespace MossWPF.ViewModels
         private readonly IAppConfiguration _config;
         private readonly IRegionManager _regionManager;
 
-       // public DelegateCommand<string> ChooseDirectoryCommand;
+
 
         private DelegateCommand<string> _chooseDirectoryCommand;
         public DelegateCommand<string> ChooseDirectoryCommand =>
@@ -33,9 +28,10 @@ namespace MossWPF.ViewModels
             Properties.Settings.Default.DefaultFileLocation = DefaultFilesLocation;
             Properties.Settings.Default.UserId = UserId;
             Properties.Settings.Default.Save();
+            var userSettings = new UserSettings(UserId, SubmissionsDirectory, DefaultFilesLocation);
             var p = new NavigationParameters()
             {
-                {NavigationParameterKeys.UserId, UserId}
+                {NavigationParameterKeys.UserSettings, userSettings}
             };
             _regionManager.RequestNavigate(RegionNames.ContentRegion, "RequestBuilderView",p);
         }
@@ -66,7 +62,7 @@ namespace MossWPF.ViewModels
             _config = config;
             _regionManager = regionManager;
 
-            //ChooseDirectoryCommand = new DelegateCommand<string>(ExecuteSelectDirectory);
+           
         }
 
         async void ExecuteSelectDirectory(string type)
@@ -77,7 +73,6 @@ namespace MossWPF.ViewModels
                 Width = 600,
                 Height = 800,
                 CreateNewDirectoryEnabled = false,
-                CurrentDirectory = _config.UserOptions.DefaultFilesLocation,
                 ShowSystemFilesAndDirectories = false,
                 SwitchPathPartsAsButtonsEnabled = true,
 
@@ -108,10 +103,7 @@ namespace MossWPF.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            if (Properties.Settings.Default.UserId != null) 
-            {
-                UserId = Properties.Settings.Default.UserId;
-            }
+            
 
         }
     }

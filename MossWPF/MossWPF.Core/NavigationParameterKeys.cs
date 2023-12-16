@@ -4,6 +4,6 @@
     {
         public const string MossSubmission = "submission";
         public const string ResultsLink = "resultsLink";
-        public const string UserId = "userId";
+        public const string UserSettings = "userSettings";
     }
 }

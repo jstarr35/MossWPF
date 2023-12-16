@@ -22,8 +22,13 @@ namespace MossWPF.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
-        
-        
+        private bool _isHelpOpen;
+        public bool IsHelpOpen
+        {
+            get => _isHelpOpen;
+            set => SetProperty(ref _isHelpOpen, value);
+        }
+
 
         private DelegateCommand<string> _navigateCommand;
         private readonly IRegionManager _regionManager;

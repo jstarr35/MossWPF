@@ -3,6 +3,7 @@ using MossWPF.Core;
 using MossWPF.Core.Events;
 using MossWPF.Core.Mvvm;
 using MossWPF.Domain;
+using MossWPF.Domain.DTOs;
 using MossWPF.Services;
 using Prism.Commands;
 using Prism.Events;
@@ -23,6 +24,9 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         private readonly IAppConfiguration _config;
         private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _eventAggregator;
+
+        private string _submissionsDirectory;
+        private string _defaultFilesLocation;
 
         #region Properties
         private bool _isBusy;
@@ -137,7 +141,7 @@ namespace MossWPF.Modules.MossRequest.ViewModels
                 Width = 600,
                 Height = 800,
                 CreateNewDirectoryEnabled = false,
-                CurrentDirectory = _config.UserOptions.DefaultFilesLocation,
+                CurrentDirectory = _defaultFilesLocation,
                 ShowSystemFilesAndDirectories = false,
                 SwitchPathPartsAsButtonsEnabled = true,
 
@@ -173,26 +177,25 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         }
 
         async void ExecuteSendRequest()
-                {
-                    IsBusy = true;
-                    await Task.Run(() =>
-                    {
-                        using var mossComm = new MossCommunication(MossSubmission, _config);
-                        mossComm.Connect();
-                        mossComm.SendOptions();
-                        string response = mossComm.ReceiveResponse(512);
-                        MossSubmission.SetResultLink(response);
-                        Response = response;
-                        Debug.WriteLine(response);
-                        mossComm.Disconnect();
-                    });
-                    IsBusy = false;
-                    Navigate("ResultsBrowser");
-                }
+        {
+            IsBusy = true;
+            await Task.Run(() =>
+            {
+                using var mossComm = new MossCommunication(MossSubmission, _config);
+                mossComm.Connect();
+                mossComm.SendOptions();
+                string response = mossComm.ReceiveResponse(512);
+                MossSubmission.SetResultLink(response);
+                Response = response;
+                Debug.WriteLine(response);
+                mossComm.Disconnect();
+            });
+            IsBusy = false;
+            Navigate("ResultsBrowser");
+        }
         
         #endregion
 
-        
 
         public RequestBuilderViewModel(IRegionManager regionManager, IAppConfiguration config, IEventAggregator eventAggregator) :
             base(regionManager)
@@ -271,9 +274,15 @@ namespace MossWPF.Modules.MossRequest.ViewModels
                 MossSubmission = navigationContext.Parameters.GetValue<MossSubmission>(NavigationParameterKeys.MossSubmission);
                 _eventAggregator.GetEvent<CanNavigateForwardEvent>().Publish(true);
             }
-            else if (navigationContext.Parameters.ContainsKey(NavigationParameterKeys.UserId))
+            else if (navigationContext.Parameters.ContainsKey(NavigationParameterKeys.UserSettings))
             {
-                MossSubmission.UserId = navigationContext.Parameters.GetValue<string>(NavigationParameterKeys.UserId);
+                var userSettings = navigationContext.Parameters.GetValue<UserSettings>(NavigationParameterKeys.UserSettings);
+                MossSubmission.UserId = userSettings.UserId;
+                if (userSettings.SubmissionsDirectory != null)
+                    _submissionsDirectory = userSettings.SubmissionsDirectory;
+
+                if (userSettings.DefaultFilesLocation != null)
+                    _defaultFilesLocation = userSettings.DefaultFilesLocation;
             }
 
             

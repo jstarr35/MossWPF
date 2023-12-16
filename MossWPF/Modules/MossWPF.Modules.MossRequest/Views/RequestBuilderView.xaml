@@ -170,14 +170,14 @@
             <RadioButton
                 Margin="0"
                 BorderBrush="{DynamicResource PrimaryHueMidBrush}"
-                Command="{Binding ShowSourceFiles}"
+                Command="{Binding ShowSourceFilesCommand}"
                 Content="Source"
                 IsChecked="True"
                 Style="{DynamicResource RadioTabCondensed}" />
             <RadioButton
                 Margin="0"
                 BorderBrush="{DynamicResource PrimaryHueMidBrush}"
-                Command="{Binding ShowBaseFiles}"
+                Command="{Binding ShowBaseFilesCommand}"
                 Content="Base"
                 IsChecked="False"
                 Style="{DynamicResource RadioTabCondensed}" />

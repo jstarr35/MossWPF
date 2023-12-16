@@ -43,12 +43,18 @@
                     </TextBlock>
                 </Button>
             </StackPanel>
-            <md:PopupBox
-                HorizontalAlignment="Left"
+            <ToggleButton
+                x:Name="HelpToggleButton"
                 DockPanel.Dock="Right"
-                PlacementMode="LeftAndAlignMiddles"
-                StaysOpen="False">
-                <Menu IsMainMenu="True">
+                IsChecked="{Binding IsHelpOpen}"
+                Style="{DynamicResource MaterialDesignToolForegroundButton}">
+                <md:PackIcon Kind="Help" />
+            </ToggleButton>
+            <Menu DockPanel.Dock="Right" IsMainMenu="True">
+                <MenuItem>
+                    <MenuItem.Icon>
+                        <md:PackIcon Kind="DotsVertical" />
+                    </MenuItem.Icon>
                     <MenuItem Header="Save" Icon="{md:PackIcon Kind=ContentSaveOutline}" />
                     <MenuItem Header="New" Icon="{md:PackIcon Kind=TextBoxPlusOutline}" />
                     <MenuItem Header="Open" Icon="{md:PackIcon Kind=FolderOpenOutline}" />
@@ -59,8 +65,9 @@
                         Header="Exit"
                         Icon="{md:PackIcon Kind=ExitToApp}"
                         InputGestureText="Ctrl+E" />
-                </Menu>
-            </md:PopupBox>
+                </MenuItem>
+            </Menu>
+
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

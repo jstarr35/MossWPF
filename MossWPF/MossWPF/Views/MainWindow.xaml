@@ -7,11 +7,10 @@
     xmlns:core="clr-namespace:MossWPF.Core;assembly=MossWPF.Core"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
-    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
     Title="{Binding Title}"
     MinWidth="800"
-    MinHeight="740"
+    MinHeight="960"
     MaxWidth="1200"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="{DynamicResource BackgroundGradientDark}"
@@ -20,52 +19,13 @@
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}">
-
-    <!--<materialDesign:DialogHost
-        DialogClosing="UserSetupDialog_OnDialogClosing"
-        IsOpen="{Binding IsUserSettingsDialogOpen}">
-        <materialDesign:DialogHost.DialogContent>
-            <Dialogs:UserSetupDialog x:Name="UserSetupDialog" />
-        </materialDesign:DialogHost.DialogContent>-->
+    <materialDesign:DrawerHost IsRightDrawerOpen="{Binding IsHelpOpen}" OpenMode="Standard">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="64" />
                 <RowDefinition Height="1*" />
-                <RowDefinition Height="64" />
             </Grid.RowDefinitions>
             <Views:AppBar />
-            <!--<ToolBarTray>
-            <ToolBar ClipToBounds="False" Style="{DynamicResource MaterialDesignToolBar}">
-                <Button
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Back"
-                    IsEnabled="{Binding CanNavigateBack}">
-                    <materialDesign:PackIcon Kind="ArrowBack" />
-                </Button>
-                <Button
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Forward"
-                    IsEnabled="{Binding CanNavigateForward}">
-                    <materialDesign:PackIcon Kind="ArrowForward" />
-                </Button>
-                <Separator />
-                <Menu IsMainMenu="True">
-                    <MenuItem Header="_File">
-                        <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSaveOutline}" />
-                        <MenuItem Header="New" Icon="{materialDesign:PackIcon Kind=TextBoxPlusOutline}" />
-                        <MenuItem Header="Open" Icon="{materialDesign:PackIcon Kind=FolderOpenOutline}" />
-                        <Separator />
-                        <MenuItem
-                            Header="Exit"
-                            Icon="{materialDesign:PackIcon Kind=ExitToApp}"
-                            InputGestureText="Ctrl+E" />
-
-
-                    </MenuItem>
-
-                </Menu>
-            </ToolBar>
-        </ToolBarTray>-->
             <ContentControl
                 Grid.Row="1"
                 Margin="16,16,16,16"
@@ -75,5 +35,8 @@
                 Margin="0,179,0,0"
                 prism:RegionManager.RegionName="{x:Static core:RegionNames.BottomNavigation}" />
         </Grid>
-    <!--</materialDesign:DialogHost>-->
+        <materialDesign:DrawerHost.RightDrawerContent>
+            <Dialogs:HelpDialog />
+        </materialDesign:DrawerHost.RightDrawerContent>
+    </materialDesign:DrawerHost>
 </mde:MaterialWindow>

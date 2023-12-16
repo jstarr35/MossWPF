@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using MossWPF.Core;
 using MossWPF.Core.Dialogs;
 using MossWPF.Domain;
+using MossWPF.Domain.DTOs;
 using MossWPF.Modules.MossRequest;
 using MossWPF.Modules.MossResult;
 using MossWPF.Services;
@@ -61,13 +62,21 @@ namespace MossWPF
 
                 if (MossWPF.Properties.Settings.Default.UserId != null)
                 {
+                    var userSettings = new UserSettings(MossWPF.Properties.Settings.Default.UserId,
+                        MossWPF.Properties.Settings.Default.SubmissionsDirectory,
+                        MossWPF.Properties.Settings.Default.DefaultFileLocation);
+
                     var p = new NavigationParameters()
                     {
-                        {NavigationParameterKeys.UserId, MossWPF.Properties.Settings.Default.UserId }
+                        {NavigationParameterKeys.UserSettings, userSettings }
                     };
-                    regionManager.RequestNavigate(RegionNames.ContentRegion, "RequestBuilderView");
+                    regionManager.RequestNavigate(RegionNames.ContentRegion, "RequestBuilderView",p);
                 }
-                regionManager.RequestNavigate(RegionNames.ContentRegion, "UserSetup");
+                else
+                {
+                    regionManager.RequestNavigate(RegionNames.ContentRegion, "UserSetup");
+                }
+               
             }
             
             

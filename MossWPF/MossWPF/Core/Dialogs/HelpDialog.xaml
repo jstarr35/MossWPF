@@ -1,0 +1,159 @@
+﻿<UserControl
+    x:Class="MossWPF.Core.Dialogs.HelpDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MossWPF.Core.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="744.2"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
+    </UserControl.Resources>
+    <DockPanel MinWidth="360">
+        <ToggleButton
+            Margin="16,16,16,0"
+            HorizontalAlignment="Left"
+            AutomationProperties.Name="Help Toggle Button"
+            DockPanel.Dock="Top"
+            IsChecked="{Binding IsHelpOpen}"
+            RenderTransformOrigin="0.5,0.5"
+            Style="{DynamicResource DrawerToggleButton}">
+            <ToggleButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1" />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </ToggleButton.RenderTransform>
+        </ToggleButton>
+        <ScrollViewer>
+            <RichTextBox Padding="8,8,8,8" IsReadOnly="True">
+                <FlowDocument
+                    FontFamily="Rubik"
+                    FontSize="12"
+                    LineHeight="20"
+                    MinPageWidth="320">
+                    <FlowDocument.Resources>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Margin" Value="0,0,0,16" />
+                        </Style>
+                    </FlowDocument.Resources>
+                    <Section>
+                        <Paragraph>
+                            <Bold>
+                                <Run
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource LightBlueAccentSurfaceBrush}"
+                                    Text="Title" />
+                            </Bold>
+                            <LineBreak />
+                            <Run Text="An optional identifier for the current Moss submission." />
+                        </Paragraph>
+                        <Paragraph>
+                            <Bold>
+                                <Run
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource LightBlueAccentSurfaceBrush}"
+                                    Text="Language" />
+                            </Bold>
+                            <LineBreak />
+                            <Run Text="Specifies the source language of the tested programs" />
+                        </Paragraph>
+
+                        <Paragraph>
+                            <Bold>
+                                <Run
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource LightBlueAccentSurfaceBrush}"
+                                    Text="Source Files" />
+                            </Bold>
+                            <LineBreak />
+                            <Run Text="The files containing the program code." />
+                        </Paragraph>
+                        <Paragraph>
+                            <Bold>
+                                <Run
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource LightBlueAccentSurfaceBrush}"
+                                    Text="Base File(s)" />
+                            </Bold>
+                            <LineBreak />
+                            <Run Text="Moss identifies code matches in file pairs. When a base file is supplied, matching code is excluded." />
+                        </Paragraph>
+                        <Paragraph>
+                            <Bold>
+                                <Run
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource LightBlueAccentSurfaceBrush}"
+                                    Text="Directory Mode" />
+                            </Bold>
+                            <LineBreak />
+                            <Run Text="Set if submissions are organized by directory rather than by file." />
+                        </Paragraph>
+                        <Paragraph>
+                            <Bold>
+                                <Run
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource LightBlueAccentSurfaceBrush}"
+                                    Text="Sensitivity" />
+                            </Bold>
+                            <LineBreak />
+
+                            <Run Text="Sets the maximum allowed occurrences for a code passage. If it appears in many programs, it's likely legitimate sharing, not plagiarism. Setting value" />
+                            <Italic>
+                                <Run FontWeight="Bold" Text="n" />
+                            </Italic>
+                            <Run Text="treats passages in over" />
+                            <Run
+                                FontStyle="Oblique"
+                                FontWeight="Bold"
+                                Text="n" />
+                            <Run Text="programs as if they are in a base file. For instance, with a value of 2, only passages in exactly two programs are reported. A value of 3 or 4 reduces common matches, while still identifying 3-way or 4-way plagiarism. A high value, like 1000000, reports all matches." />
+                        </Paragraph>
+                        <Paragraph>
+                            <Bold>
+                                <Run
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource LightBlueAccentSurfaceBrush}"
+                                    Text="Results To Show" />
+                            </Bold>
+                            <LineBreak />
+                            <Run Text="The number of matching files to show in the results." />
+                        </Paragraph>
+                        <Paragraph>
+                            <Bold>
+                                <Run
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource LightBlueAccentSurfaceBrush}"
+                                    Text="Experimental Mode" />
+                            </Bold>
+                            <LineBreak />
+                            <Run Text="Send queries to the experimental server, which features the latest Moss capabilities but may be less stable." />
+                        </Paragraph>
+                        <Paragraph>
+                            <Bold>
+                                <Run
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource LightBlueAccentSurfaceBrush}"
+                                    Text="Comments" />
+                            </Bold>
+                            <LineBreak />
+                            <Run Text="Provides a comment string linked to the generated report, aiding in associating queries submitted with the corresponding replies." />
+                        </Paragraph>
+                    </Section>
+                </FlowDocument>
+            </RichTextBox>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

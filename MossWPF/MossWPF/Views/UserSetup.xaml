@@ -9,6 +9,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:rules="clr-namespace:MossWPF.Core.Validation;assembly=MossWPF.Core"
     xmlns:viewmodels="clr-namespace:MossWPF.ViewModels"
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
     MinWidth="640"
     MinHeight="800"
     HorizontalContentAlignment="Center"
@@ -16,9 +17,12 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="{x:Type TextBox}">
-            <Setter Property="Margin" Value="8,32" />
-            <Setter Property="MinWidth" Value="256" />
-            <Setter Property="Height" Value="48" />
+            <Setter Property="Margin" Value="8,28" />
+            <Setter Property="MinWidth" Value="316" />
+            <Setter Property="Height" Value="52" />
+            <Setter Property="wpf:TextFieldAssist.TextBoxViewMargin" Value="0" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -30,16 +34,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
         <TextBlock
-            Grid.ColumnSpan="2"
+            Grid.Column="1"
             Margin="16"
             HorizontalAlignment="Center"
             FontSize="22"
             FontWeight="Bold"
             Text="Setup" />
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="1"  Orientation="Horizontal" Grid.Column="1">
             <md:PackIcon
                 Width="32"
                 Height="32"
@@ -48,20 +56,18 @@
                 VerticalAlignment="Center"
                 Foreground="{DynamicResource BrushCoolGrey}"
                 Kind="User" />
-            <TextBox
-                x:Name="UserIdTextBox"
-                md:HintAssist.Hint="User ID">
+            <TextBox x:Name="UserIdTextBox" md:HintAssist.Hint="User ID">
                 <TextBox.Text>
                     <Binding Path="UserId" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <rules:PositiveIntegerValidationRule ValidatesOnTargetUpdated="True" />
+                            <rules:UserIdValidationRule ValidatesOnTargetUpdated="True" />
                         </Binding.ValidationRules>
                     </Binding>
 
                 </TextBox.Text>
             </TextBox>
         </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.Column="1">
             <Button
                 Width="48"
                 Height="48"
@@ -103,7 +109,7 @@
                 HorizontalAlignment="Right"
                 Command="{Binding ChooseDirectoryCommand}"
                 CommandParameter="DefaultFilesLocation"
-                Style="{DynamicResource MaterialDesignOutlinedButton}">
+                Style="{DynamicResource MaterialDesignFlatButton}">
                 <md:PackIcon
                     Width="32"
                     Height="32"
@@ -125,8 +131,9 @@
         <Button
             x:Name="OkButton"
             Grid.Row="4"
-            Grid.ColumnSpan="2"
-            Margin="16"
+            Grid.Column="1"
+            Grid.ColumnSpan="1"
+            Margin="4"
             HorizontalAlignment="Center"
             Command="{Binding AcceptCommand}"
             Content="OK"
@@ -136,6 +143,8 @@
             MinWidth="280"
             MaxWidth="360"
             Margin="16"
+            Grid.Column="1"
+            md:ExpanderAssist.HorizontalHeaderPadding="8,2,0,2"
             Background="Transparent"
             Header="Register for Moss Account">
             <RichTextBox
@@ -145,7 +154,15 @@
                 IsReadOnly="True"
                 SpellCheck.IsEnabled="True"
                 VerticalScrollBarVisibility="Auto">
-                <FlowDocument LineHeight="24">
+                <FlowDocument
+                    FontSize="13"
+                    FontWeight="Light"
+                    LineHeight="20">
+                    <FlowDocument.Resources>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Margin" Value="8" />
+                        </Style>
+                    </FlowDocument.Resources>
                     <Paragraph>
                         <Run Text="Send an email to " />
                         <Underline>
@@ -171,7 +188,7 @@
 
 
 
-        <md:DialogHost Grid.RowSpan="6" Identifier="FileExplorerDialogHost" />
+        <md:DialogHost Grid.RowSpan="6" Identifier="FileExplorerDialogHost" MinWidth="606" Grid.ColumnSpan="3" />
     </Grid>
 
 </UserControl>
