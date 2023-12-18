@@ -2,15 +2,13 @@
     x:Class="MossWPF.Modules.MossRequest.Views.RequestBuilderView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:colors="clr-namespace:MaterialDesignColors;assembly=MaterialDesignColors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:domain="clr-namespace:MossWPF.Domain;assembly=MossWPF.Domain"
-    xmlns:local="clr-namespace:MossWPF.Modules.MossRequest.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
     xmlns:rules="clr-namespace:MossWPF.Core.Validation;assembly=MossWPF.Core"
-    MinWidth="720"
+    MinWidth="768"
     MinHeight="550"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -29,261 +27,265 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            <!--<Style TargetType="{x:Type materialDesign:PackIcon}">
-                <Setter Property="Width" Value="24" />
-                <Setter Property="Height" Value="24" />
-            </Style>-->
         </ResourceDictionary>
-
     </UserControl.Resources>
-    <Grid Margin="0,16,0,16">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-
-
-        </Grid.RowDefinitions>
+    <Grid>
         <Grid.ColumnDefinitions>
-
-            <ColumnDefinition Width="187*" />
-            <ColumnDefinition Width="53*" />
-            <ColumnDefinition Width="187*" />
-            <ColumnDefinition Width="53*" />
-            <ColumnDefinition Width="240*" />
+            <ColumnDefinition Width="48" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="48" />
         </Grid.ColumnDefinitions>
-
-        <ComboBox
-            x:Name="OutlinedComboBox"
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Margin="0,8,8,8"
-            materialDesign:HintAssist.Hint="Programming Language"
-            DisplayMemberPath="Name"
-            ItemsSource="{Binding Languages}"
-            SelectedItem="{Binding MossSubmission.SelectedLanguage}"
-            Style="{DynamicResource MaterialDesignFilledComboBox}" />
-        <TextBox
-            x:Name="TitleTextBox"
-            Grid.ColumnSpan="2"
-            Margin="0,8,8,8"
-            materialDesign:HintAssist.Hint="Title (Optional)" />
-        <TextBox
-            x:Name="SensitivityTextBox"
-            Grid.Column="2"
-            Grid.ColumnSpan="2"
-            materialDesign:HintAssist.Hint="Sensitivity"
-            materialDesign:TextFieldAssist.HasClearButton="True"
-            materialDesign:ValidationAssist.HorizontalAlignment="Right">
-            <TextBox.Text>
-                <Binding Path="MossSubmission.Sensitivity" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <rules:PositiveIntegerValidationRule ValidatesOnTargetUpdated="True" />
-                    </Binding.ValidationRules>
-                </Binding>
-
-            </TextBox.Text>
-
-        </TextBox>
-        <TextBox
-            x:Name="ResultsToDisplayTextBox"
-            Grid.Row="1"
-            Grid.Column="2"
-            Grid.ColumnSpan="2"
-            materialDesign:HintAssist.Hint="Results To Show"
-            materialDesign:TextFieldAssist.HasClearButton="True"
-            materialDesign:ValidationAssist.HorizontalAlignment="Right">
-            <TextBox.Text>
-                <Binding Path="MossSubmission.ResultsToShow" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <rules:PositiveIntegerValidationRule ValidatesOnTargetUpdated="True" />
-                    </Binding.ValidationRules>
-                </Binding>
-
-            </TextBox.Text>
-
-        </TextBox>
-        <TextBox
-            x:Name="CommentsTextBox"
-            Grid.RowSpan="3"
-            Grid.Column="4"
-            Grid.ColumnSpan="2"
-            Margin="8,8,8,8"
-            materialDesign:HintAssist.Hint="Comments"
-            Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding MossSubmission.Comments}"
-            TextWrapping="Wrap" />
-
-        <TextBlock
-            Grid.Row="2"
-            Grid.Column="0"
-            Margin="8"
-            Text="Directory Mode" />
-        <ToggleButton
-            Grid.Row="2"
-            Grid.Column="1"
-            IsChecked="{Binding MossSubmission.UseDirectoryMode}"
-            Style="{StaticResource MaterialDesignSwitchToggleButton}"
-            ToolTip="Specifies that submissions are by directory, not by file" />
-
-
-        <TextBlock
-            Grid.Row="2"
-            Grid.Column="2"
-            Margin="8"
-            Text="Experimental Mode" />
-        <ToggleButton
-            Grid.Row="2"
-            Grid.Column="3"
-            IsChecked="{Binding MossSubmission.UseExperimental}"
-            Style="{StaticResource MaterialDesignSwitchToggleButton}"
-            ToolTip="Send request to experimental server" />
-
-
-
-        <mde:BusyOverlay
-            Grid.RowSpan="5"
-            Grid.ColumnSpan="5"
-            IsBusy="{Binding Path=IsBusy}"
-            Style="{StaticResource MaterialBusyOverlayCircular}" />
-        <materialDesign:DialogHost
-            x:Name="FileExplorerDialogHost"
-            Grid.RowSpan="5"
-            Grid.ColumnSpan="5"
-            Identifier="FileExplorerDialogHost" />
-        <!--  piece together your own items control to create some nice stuff that will make everyone think you are cool. and rightly so, because you are cool.  you might even be a hipster for all I know  -->
-        <StackPanel
-            Grid.Row="4"
-            Grid.Column="0"
-            Orientation="Horizontal">
-            <StackPanel.Resources>
-                <Style
-                    x:Key="RadioTabCondensed"
-                    BasedOn="{StaticResource MaterialDesignTabRadioButtonTop}"
-                    TargetType="{x:Type RadioButton}">
-                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
-
-                </Style>
-            </StackPanel.Resources>
-            <RadioButton
-                Margin="0"
-                BorderBrush="{DynamicResource PrimaryHueMidBrush}"
-                Command="{Binding ShowSourceFilesCommand}"
-                Content="Source"
-                IsChecked="True"
-                Style="{DynamicResource RadioTabCondensed}" />
-            <RadioButton
-                Margin="0"
-                BorderBrush="{DynamicResource PrimaryHueMidBrush}"
-                Command="{Binding ShowBaseFilesCommand}"
-                Content="Base"
-                IsChecked="False"
-                Style="{DynamicResource RadioTabCondensed}" />
-        </StackPanel>
-
-        <Border
-            Grid.Row="3"
-            Grid.ColumnSpan="4"
-            Margin="0,8,0,8"
-            Padding="8"
-            Background="{DynamicResource AttentionToActionBrush}"
-            BorderBrush="{DynamicResource SecondaryHueMidBrush}"
-            BorderThickness="0.25"
-            CornerRadius="4">
-            <ScrollViewer Grid.IsSharedSizeScope="True">
-                <ItemsControl ItemsSource="{Binding Files}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type domain:FileListItem}">
-
-                            <Border x:Name="Border" Padding="4">
-                                <TextBlock
-                                    FontFamily="Cascadia Code Light"
-                                    FontSize="11.5"
-                                    FontWeight="Normal"
-                                    Text="{Binding Path}" />
-                            </Border>
-                            <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
-                                </DataTrigger>
-                            </DataTemplate.Triggers>
-
-                        </DataTemplate>
-
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </Border>
-
-        <TextBlock
-            Grid.Row="6"
-            Grid.Column="2"
-            Grid.ColumnSpan="5"
-            Margin="16,0,16,0"
-            Text="{Binding Response}" />
-        <Border
-            Grid.Row="3"
-            Grid.Column="4"
-            Grid.ColumnSpan="2"
-            Margin="16,8,16,8"
-            Padding="8"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="{DynamicResource DarkBlueControlSurfaceBrushOpacity_50}"
-            CornerRadius="8">
-            <StackPanel Orientation="Vertical">
-                <Button
-                    x:Name="BaseFilesSideButton"
-                    Margin="8"
-                    Style="{DynamicResource MaterialDesignOutlinedButton}">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FolderOpen" />
-                        <TextBlock Margin="4,0,0,0" Text="Base File(s)" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    x:Name="SourceFilesSideButton"
-                    Margin="8"
-                    Command="{Binding OpenSourceFilesDirectoryCommand}"
-                    Style="{DynamicResource MaterialDesignOutlinedButton}">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FolderOpen" />
-                        <TextBlock Margin="4,0,0,0" Text="Source Files" />
-                    </StackPanel>
-                </Button>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="24,0,8,0" Text="Filter File Types" />
-                    <ToggleButton
-                        Margin="24,0,8,0"
-                        IsChecked="{Binding FilterFileTypes}"
-                        IsEnabled="{Binding MossSubmission.IsLanguageSelected}" />
-                </StackPanel>
-                <Button
-                    Margin="8"
-                    Command="{Binding ClearFilesCommand}"
-                    Style="{DynamicResource MaterialDesignOutlinedButton}">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FileDocumentRemove" />
-                        <TextBlock Margin="4,0,0,0" Text="Clear Selection" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Margin="8"
-                    HorizontalAlignment="Center"
-                    Command="{Binding SendRequestCommand}"
-                    Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                    Style="{DynamicResource MaterialDesignRaisedButton}">
-                    <TextBlock
-                        Margin="0"
-                        FontFamily="Broadway"
-                        FontSize="24"
-                        FontWeight="Bold"
-                        Text="M" />
-
-                </Button>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="64" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="1" Margin="16,16,0,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="187*" />
+                <ColumnDefinition Width="53*" />
+                <ColumnDefinition Width="187*" />
+                <ColumnDefinition Width="53*" />
+                <ColumnDefinition Width="240*" />
+            </Grid.ColumnDefinitions>
+            <ComboBox
+                x:Name="OutlinedComboBox"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="0,8,8,8"
+                materialDesign:HintAssist.Hint="Programming Language"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Languages}"
+                SelectedItem="{Binding MossSubmission.SelectedLanguage}"
+                Style="{DynamicResource MaterialDesignFilledComboBox}"
+                ToolTip="The language of the submitted programs" />
+            <TextBox
+                x:Name="TitleTextBox"
+                Grid.ColumnSpan="2"
+                Margin="0,8,8,8"
+                materialDesign:HintAssist.Hint="Title (Optional)"
+                ToolTip="Add a title for this submission" />
+            <TextBox
+                x:Name="SensitivityTextBox"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                materialDesign:HintAssist.Hint="Sensitivity"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                materialDesign:ValidationAssist.HorizontalAlignment="Right"
+                ToolTip="The number of matches before exculsion">
+                <TextBox.Text>
+                    <Binding Path="MossSubmission.Sensitivity" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <rules:PositiveIntegerValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox
+                x:Name="ResultsToDisplayTextBox"
+                Grid.Row="1"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                materialDesign:HintAssist.Hint="Results To Show"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                materialDesign:ValidationAssist.HorizontalAlignment="Right"
+                ToolTip="The number of results to display">
+                <TextBox.Text>
+                    <Binding Path="MossSubmission.ResultsToShow" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <rules:PositiveIntegerValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox
+                x:Name="CommentsTextBox"
+                Grid.RowSpan="3"
+                Grid.Column="4"
+                Grid.ColumnSpan="2"
+                Margin="8,8,8,8"
+                materialDesign:HintAssist.Hint="Comments"
+                Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                Text="{Binding MossSubmission.Comments}"
+                TextWrapping="Wrap"
+                ToolTip="Add comments for this submission" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="8"
+                Text="Directory Mode" />
+            <ToggleButton
+                Grid.Row="2"
+                Grid.Column="1"
+                IsChecked="{Binding MossSubmission.UseDirectoryMode}"
+                Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                ToolTip="Specifies that submissions are by directory, not by file" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="2"
+                Margin="8"
+                Text="Experimental Mode" />
+            <ToggleButton
+                Grid.Row="2"
+                Grid.Column="3"
+                IsChecked="{Binding MossSubmission.UseExperimental}"
+                Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                ToolTip="Send request to experimental server" />
+            <mde:BusyOverlay
+                Grid.RowSpan="5"
+                Grid.ColumnSpan="5"
+                IsBusy="{Binding Path=IsBusy}"
+                Style="{StaticResource MaterialBusyOverlayCircular}" />
+            <materialDesign:DialogHost
+                x:Name="FileExplorerDialogHost"
+                Grid.RowSpan="5"
+                Grid.ColumnSpan="5"
+                Identifier="FileExplorerDialogHost" />
+            <StackPanel
+                Grid.Row="4"
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style
+                        x:Key="RadioTabCondensed"
+                        BasedOn="{StaticResource MaterialDesignTabRadioButtonTop}"
+                        TargetType="{x:Type RadioButton}">
+                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                    </Style>
+                </StackPanel.Resources>
+                <RadioButton
+                    Margin="0"
+                    BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                    Command="{Binding ShowSourceFilesCommand}"
+                    Content="Source"
+                    IsChecked="True"
+                    Style="{DynamicResource RadioTabCondensed}"
+                    ToolTip="View selected source files" />
+                <RadioButton
+                    Margin="0"
+                    BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                    Command="{Binding ShowBaseFilesCommand}"
+                    Content="Base"
+                    IsChecked="False"
+                    Style="{DynamicResource RadioTabCondensed}"
+                    ToolTip="View selected base file(s)" />
             </StackPanel>
-        </Border>
+            <Border
+                Grid.Row="3"
+                Grid.ColumnSpan="4"
+                Margin="0,8,0,8"
+                Padding="8"
+                Background="{DynamicResource AttentionToActionBrush}"
+                BorderBrush="{DynamicResource SecondaryHueMidBrush}"
+                BorderThickness="0.25"
+                CornerRadius="4">
+                <ScrollViewer Grid.IsSharedSizeScope="True">
+                    <ItemsControl ItemsSource="{Binding Files}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type domain:FileListItem}">
+                                <Border x:Name="Border" Padding="4">
+                                    <TextBlock
+                                        FontFamily="Cascadia Code Light"
+                                        FontSize="11.5"
+                                        FontWeight="Normal"
+                                        Text="{Binding Path}" />
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+            <Border
+                Grid.Row="3"
+                Grid.Column="4"
+                Grid.ColumnSpan="2"
+                Margin="16,8,16,8"
+                Padding="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{DynamicResource DarkBlueControlSurfaceBrushOpacity_50}"
+                CornerRadius="8">
+                <StackPanel Orientation="Vertical" ToolTip="Only include files with an extension associated with the selected language">
+                    <Button
+                        x:Name="BaseFilesSideButton"
+                        Margin="8"
+                        Style="{DynamicResource MaterialDesignOutlinedButton}"
+                        ToolTip="Select base file(s)">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="FolderOpen" />
+                            <TextBlock Margin="4,0,0,0" Text="Base File(s)" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        x:Name="SourceFilesSideButton"
+                        Margin="8"
+                        Command="{Binding OpenSourceFilesDirectoryCommand}"
+                        Style="{DynamicResource MaterialDesignOutlinedButton}"
+                        ToolTip="Select code files for submission">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="FolderOpen" />
+                            <TextBlock Margin="4,0,0,0" Text="Source Files" />
+                        </StackPanel>
+                    </Button>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="24,0,8,0" Text="Filter File Types" />
+                        <ToggleButton
+                            Margin="24,0,8,0"
+                            IsChecked="{Binding FilterFileTypes}"
+                            IsEnabled="{Binding MossSubmission.IsLanguageSelected}" />
+                    </StackPanel>
+                    <Button
+                        Margin="8"
+                        Command="{Binding ClearFilesCommand}"
+                        Style="{DynamicResource MaterialDesignOutlinedButton}"
+                        ToolTip="Clear selected files">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="FileDocumentRemove" />
+                            <TextBlock Margin="4,0,0,0" Text="Clear Selection" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Margin="8"
+                        HorizontalAlignment="Center"
+                        Command="{Binding SendRequestCommand}"
+                        Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"
+                        ToolTip="Send Moss request">
+                        <TextBlock
+                            Margin="0"
+                            FontFamily="Broadway"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Text="M" />
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Button
+            Grid.Column="2"
+            Margin="0,16,0,16"
+            VerticalAlignment="Top"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="ResultsBrowser"
+            Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
+            Visibility="{Binding GoForwardButtonVisibility}">
+            <materialDesign:PackIcon Kind="ArrowRight" />
+        </Button>
+        <materialDesign:Snackbar
+            x:Name="MainSnackbar"
+            Grid.Row="1"
+            Grid.Column="1"
+            MessageQueue="{Binding SnackbarMessageQueue}" />
     </Grid>
 </UserControl>

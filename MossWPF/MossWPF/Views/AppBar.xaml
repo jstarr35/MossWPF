@@ -17,31 +17,28 @@
         Mode="PrimaryDark">
         <DockPanel>
             <StackPanel Orientation="Horizontal">
-                <Button
-                    md:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="RequestBuilderView"
-                    IsEnabled="{Binding CanNavigateBack}"
-                    Style="{DynamicResource MaterialDesignToolForegroundButton}">
-                    <md:PackIcon Kind="ArrowBack" />
-                </Button>
-                <Button
-                    md:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="Forward"
-                    IsEnabled="{Binding CanNavigateForward}"
-                    Style="{DynamicResource MaterialDesignToolForegroundButton}">
-                    <md:PackIcon Kind="ArrowForward" />
-                </Button>
-                <Button Style="{DynamicResource MaterialDesignToolForegroundButton}">
-
-                    <TextBlock
+                
+                <Menu DockPanel.Dock="Left" IsMainMenu="True">
+                    <MenuItem
                         FontFamily="Broadway"
                         FontSize="22"
-                        Foreground="{DynamicResource MaterialDesignDarkForeground}">
-                        M
-                    </TextBlock>
-                </Button>
+                        Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                        Header="M">
+
+                        <MenuItem Header="Save" Icon="{md:PackIcon Kind=ContentSaveOutline}" />
+                        <MenuItem Header="New" Icon="{md:PackIcon Kind=TextBoxPlusOutline}" />
+                        <MenuItem Header="Open" Icon="{md:PackIcon Kind=FolderOpenOutline}" />
+                        <Separator />
+                        <MenuItem Header="User ID" Icon="{md:PackIcon Kind=User}" />
+                        <Separator />
+                        <MenuItem
+                            Header="Exit"
+                            Icon="{md:PackIcon Kind=ExitToApp}"
+                            InputGestureText="Ctrl+E" />
+                    </MenuItem>
+                </Menu>
+
+                
             </StackPanel>
             <ToggleButton
                 x:Name="HelpToggleButton"
@@ -50,24 +47,7 @@
                 Style="{DynamicResource MaterialDesignToolForegroundButton}">
                 <md:PackIcon Kind="Help" />
             </ToggleButton>
-            <Menu DockPanel.Dock="Right" IsMainMenu="True">
-                <MenuItem>
-                    <MenuItem.Icon>
-                        <md:PackIcon Kind="DotsVertical" />
-                    </MenuItem.Icon>
-                    <MenuItem Header="Save" Icon="{md:PackIcon Kind=ContentSaveOutline}" />
-                    <MenuItem Header="New" Icon="{md:PackIcon Kind=TextBoxPlusOutline}" />
-                    <MenuItem Header="Open" Icon="{md:PackIcon Kind=FolderOpenOutline}" />
-                    <Separator />
-                    <MenuItem Header="User ID" Icon="{md:PackIcon Kind=User}" />
-                    <Separator />
-                    <MenuItem
-                        Header="Exit"
-                        Icon="{md:PackIcon Kind=ExitToApp}"
-                        InputGestureText="Ctrl+E" />
-                </MenuItem>
-            </Menu>
-
+           
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

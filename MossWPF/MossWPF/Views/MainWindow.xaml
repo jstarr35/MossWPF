@@ -24,16 +24,18 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="64" />
                 <RowDefinition Height="1*" />
+                
             </Grid.RowDefinitions>
             <Views:AppBar />
             <ContentControl
                 Grid.Row="1"
                 Margin="16,16,16,16"
                 prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
-            <ContentControl
+            <!--<ContentControl
                 Grid.Row="2"
                 Margin="0,179,0,0"
-                prism:RegionManager.RegionName="{x:Static core:RegionNames.BottomNavigation}" />
+                prism:RegionManager.RegionName="{x:Static core:RegionNames.BottomNavigation}" />-->
+            <materialDesign:Snackbar Grid.Row="1" MessageQueue="{Binding NotificationMessageQueue}" />
         </Grid>
         <materialDesign:DrawerHost.RightDrawerContent>
             <Dialogs:HelpDialog />

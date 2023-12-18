@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MaterialDesignThemes.Wpf;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using MossWPF.Core;
 using MossWPF.Core.Dialogs;
@@ -39,6 +40,7 @@ namespace MossWPF
             builder.Configuration.GetSection(nameof(ServerSettings)).Bind(serverSettings);
             builder.Build();
             //containerRegistry.RegisterDialog<UserSetupDialog, UserSetupDialogViewModel>();
+            containerRegistry.RegisterSingleton<ISnackbarMessageQueue, SnackbarMessageQueue>();
             containerRegistry.RegisterForNavigation<UserSetup, UserSetupViewModel>();
             containerRegistry.Register<IAppConfiguration, AppConfiguration>();
             containerRegistry.RegisterSingleton<IApplicationCommands, ApplicationCommands>();

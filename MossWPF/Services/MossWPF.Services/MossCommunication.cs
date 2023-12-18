@@ -1,4 +1,5 @@
 ﻿using MossWPF.Domain;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -10,10 +11,10 @@ namespace MossWPF.Services
 {
     public interface IMossCommunication
     {
-        void Connect();
+        bool TryConnect(out string errorMessage);
         void Disconnect();
-        string ReceiveResponse(int replySize);
         void SendOptions();
+        bool TryReceiveResponse(int replySize, out string response, out string errorMessage);
     }
 
     public class MossCommunication : IDisposable, IMossCommunication
@@ -30,14 +31,25 @@ namespace MossWPF.Services
             this.settings = settings;
         }
 
-        public void Connect()
+        public bool TryConnect(out string errorMessage)
         {
-            var hostEntry = Dns.GetHostEntry(settings.ServerSettings.Server);
-            var address = hostEntry.AddressList[0];
-            var ipe = new IPEndPoint(address, settings.ServerSettings.Port);
+            try
+            {
+                var hostEntry = Dns.GetHostEntry(settings.ServerSettings.Server);
+                var address = hostEntry.AddressList[0];
+                var ipe = new IPEndPoint(address, settings.ServerSettings.Port);
 
-            _mossSocket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            _mossSocket.Connect(ipe);
+                _mossSocket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                _mossSocket.Connect(ipe);
+                errorMessage = null;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Unable to connect to Moss server.";
+                Debug.WriteLine(ex.Message.ToString());
+                return false;
+            }
         }
 
         public void Disconnect()
@@ -73,12 +85,24 @@ namespace MossWPF.Services
 
         }
 
-        public string ReceiveResponse(int replySize)
+        public bool TryReceiveResponse(int replySize, out string response, out string errorMessage)
         {
-            SendOption("query 0", request.Comments);
-            var bytes = new byte[replySize];
-            _mossSocket.Receive(bytes);
-            return Encoding.UTF8.GetString(bytes);
+            try
+            {
+                SendOption("query 0", request.Comments);
+                var bytes = new byte[replySize];
+                _mossSocket.Receive(bytes);
+                response = Encoding.UTF8.GetString(bytes);
+                errorMessage = null;
+                return true;
+            }
+            catch (Exception)
+            {
+
+                errorMessage = "Error receiving response from server.";
+                response = null;
+                return false;
+            }
         }
 
         public void Dispose()

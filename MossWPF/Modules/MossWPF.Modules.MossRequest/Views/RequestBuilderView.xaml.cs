@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using MossWPF.Modules.MossRequest.ViewModels;
+using System.Windows.Controls;
 
 namespace MossWPF.Modules.MossRequest.Views
 {
@@ -10,6 +11,8 @@ namespace MossWPF.Modules.MossRequest.Views
         public RequestBuilderView()
         {
             InitializeComponent();
+
+           
         }
 
     }
