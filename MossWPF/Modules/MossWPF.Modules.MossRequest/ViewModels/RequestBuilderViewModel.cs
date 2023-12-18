@@ -1,4 +1,5 @@
 ﻿using MaterialDesignExtensions.Controls;
+using MaterialDesignThemes.Wpf;
 using MossWPF.Core;
 using MossWPF.Core.Events;
 using MossWPF.Core.Mvvm;
@@ -16,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MossWPF.Modules.MossRequest.ViewModels
 {
@@ -28,12 +30,21 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         private string _submissionsDirectory;
         private string _defaultFilesLocation;
 
+        public ISnackbarMessageQueue SnackbarMessageQueue { get; set; }
+
         #region Properties
         private bool _isBusy;
         public bool IsBusy
         {
             get { return _isBusy; }
             set { SetProperty(ref _isBusy, value); }
+        }
+
+        private Visibility _goForwardButtonVisibility;
+        public Visibility GoForwardButtonVisibility
+        {
+            get => _goForwardButtonVisibility;
+            set => SetProperty(ref _goForwardButtonVisibility, value);
         }
 
         private bool _filterFileTypes;
@@ -80,18 +91,21 @@ namespace MossWPF.Modules.MossRequest.ViewModels
 
         #region Commands
 
-       
-       
         private DelegateCommand _openSourceFilesDirectoryCommand;
         private DelegateCommand _openBaseFileCommand;
         private DelegateCommand _sendRequest;
         private DelegateCommand _showSourceFilesCommand;
         private DelegateCommand _showBaseFilesCommand;
         private DelegateCommand _clearFilesCommand;
+        private DelegateCommand<string> _navigateCommand;
 
-
+        public DelegateCommand<string> NavigateCommand =>
+            _navigateCommand ??= new DelegateCommand<string>(Navigate);
+        
         public DelegateCommand ClearFilesCommand =>
-            _clearFilesCommand ??= new DelegateCommand(ExecuteClearFilesCommand, () => MossSubmission.SourceFiles.Any() || MossSubmission.BaseFiles.Any());
+            _clearFilesCommand ??= new DelegateCommand(ExecuteClearFilesCommand, CanClearFiles)
+            .ObservesProperty(() => Files)
+            .ObservesProperty(() => MossSubmission.BaseFiles);
 
         public DelegateCommand ShowBaseFilesCommand =>
             _showBaseFilesCommand ??= new DelegateCommand(() => { Files = MossSubmission?.BaseFiles; });
@@ -135,7 +149,6 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         
         async void ExecuteOpenSourceFilesDirectoryCommand()
         {
-
             OpenDirectoryDialogArguments arguments = new()
             {
                 Width = 600,
@@ -147,6 +160,7 @@ namespace MossWPF.Modules.MossRequest.ViewModels
 
             };
             var info = await OpenDirectoryDialog.ShowDialogAsync("FileExplorerDialogHost", arguments);
+            
             if (!info.Canceled)
             {
                 IEnumerable<FileListItem> fileListItems;
@@ -156,7 +170,9 @@ namespace MossWPF.Modules.MossRequest.ViewModels
                 {
                     var exts = MossSubmission.SelectedLanguage.Extensions.Select(ex => ex.ToString());
                     var filtered = files.Where(f => exts.Contains(f.Extension));
-                    fileListItems = filtered.Select(y => y.FullName).Except(MossSubmission.SourceFiles.Select(x => x.Name)).Select(f => new FileListItem(f, 'S'));
+                    filtered.ToList().ForEach(f => Debug.WriteLine(f.FullName));
+                    MossSubmission.SourceFiles.ToList().ForEach(f => Debug.WriteLine(f.Path));
+                    fileListItems = filtered.Select(y => y.FullName).Except(MossSubmission.SourceFiles.Select(x => x.Path)).Select(f => new FileListItem(f, 'S'));
                 }
                 else
                 {
@@ -165,41 +181,74 @@ namespace MossWPF.Modules.MossRequest.ViewModels
 
                 MossSubmission.SourceFiles.AddRange(fileListItems);
                 Files = MossSubmission?.SourceFiles;
-                if (MossSubmission.SourceFiles.Any()) SendRequestCommand.RaiseCanExecuteChanged();
+                if (MossSubmission.SourceFiles.Any())
+                {
+                    SendRequestCommand.RaiseCanExecuteChanged();
+                    ClearFilesCommand.RaiseCanExecuteChanged();
+                }
             }
-
         }
         
         void ExecuteClearFilesCommand()
         {
             MossSubmission.BaseFiles.Clear();
             MossSubmission.SourceFiles.Clear();
+            ClearFilesCommand.RaiseCanExecuteChanged();
         }
 
         async void ExecuteSendRequest()
         {
             IsBusy = true;
-            await Task.Run(() =>
+            bool success = await Task.Run(() =>
             {
                 using var mossComm = new MossCommunication(MossSubmission, _config);
-                mossComm.Connect();
-                mossComm.SendOptions();
-                string response = mossComm.ReceiveResponse(512);
-                MossSubmission.SetResultLink(response);
-                Response = response;
-                Debug.WriteLine(response);
+                if (mossComm.TryConnect(out string errorMessage))
+                {
+                    mossComm.SendOptions();
+                    if (mossComm.TryReceiveResponse(512, out string response, out string receceptionError))
+                    {
+                        MossSubmission.SetResultLink(response);
+                        Response = response;
+                        Debug.WriteLine(response);
+                    }
+                    else
+                    {
+                        _eventAggregator.GetEvent<SnackbarMessageEvent>().Publish(receceptionError);
+                        return false;
+                    }
+                }
+                else
+                {
+                    _eventAggregator.GetEvent<SnackbarMessageEvent>().Publish(errorMessage);
+                    return false;
+                }
                 mossComm.Disconnect();
+                return true;
             });
             IsBusy = false;
-            Navigate("ResultsBrowser");
+            if (success)
+            {
+                Navigate("ResultsBrowser");
+            }
         }
-        
+
+        private DelegateCommand _snackBarTestCommand;
+        public DelegateCommand SnackBarTestCommand =>
+            _snackBarTestCommand ??= new DelegateCommand(ExecuteSnackBarTestCommand);
+
+        void ExecuteSnackBarTestCommand()
+        {
+           // SnackbarMessageQueue.Enqueue("Test button clicked.");
+            _eventAggregator.GetEvent<SnackbarMessageEvent>().Publish("Test button clicked.");
+        }
         #endregion
 
 
-        public RequestBuilderViewModel(IRegionManager regionManager, IAppConfiguration config, IEventAggregator eventAggregator) :
+        public RequestBuilderViewModel(IRegionManager regionManager, IAppConfiguration config, IEventAggregator eventAggregator, ISnackbarMessageQueue snackbarMessageQueue) :
             base(regionManager)
         {
+           SnackbarMessageQueue = snackbarMessageQueue;
+            Debug.WriteLine("Constructing RequestBuilderViewModel");
             _config = config;
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
@@ -214,8 +263,6 @@ namespace MossWPF.Modules.MossRequest.ViewModels
             };
             Languages = new List<ProgrammingLanguage>(config.ProgrammingLanguages);
             Files = MossSubmission.SourceFiles;
-            
-            eventAggregator.GetEvent<ForwardNavigationEvent>().Subscribe(Navigate);
         }
 
         private string GetFileTypeFilter()
@@ -243,6 +290,14 @@ namespace MossWPF.Modules.MossRequest.ViewModels
             return filterStringBuilder.ToString();
         }
 
+        private bool CanClearFiles()
+        {
+            if (MossSubmission.SourceFiles.Any() || MossSubmission.BaseFiles.Any())
+                return true;
+            else
+                return false;
+        }
+        
         private bool IsValidForm()
         {
             if(!MossSubmission.SourceFiles.Any()) 
@@ -266,9 +321,9 @@ namespace MossWPF.Modules.MossRequest.ViewModels
             _regionManager.RequestNavigate(RegionNames.ContentRegion, uri, p);
         }
 
-
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
+            base.OnNavigatedTo(navigationContext);
             if (navigationContext.Parameters.ContainsKey(NavigationParameterKeys.MossSubmission))
             {
                 MossSubmission = navigationContext.Parameters.GetValue<MossSubmission>(NavigationParameterKeys.MossSubmission);
@@ -285,7 +340,7 @@ namespace MossWPF.Modules.MossRequest.ViewModels
                     _defaultFilesLocation = userSettings.DefaultFilesLocation;
             }
 
-            
+            GoForwardButtonVisibility = NavigationService.Journal.CanGoForward ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public static async Task UploadFileAsync(string file, int id, string lang, StreamWriter fileWriter)

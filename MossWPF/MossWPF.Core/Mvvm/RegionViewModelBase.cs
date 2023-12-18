@@ -1,15 +1,19 @@
-﻿using Prism.Regions;
+﻿using Prism.Commands;
+using Prism.Regions;
 using System;
+using System.Windows.Navigation;
 
 namespace MossWPF.Core.Mvvm
 {
     public class RegionViewModelBase : ViewModelBase, INavigationAware, IConfirmNavigationRequest
     {
         protected IRegionManager RegionManager { get; private set; }
+        protected IRegionNavigationService NavigationService { get; private set; }
 
         public RegionViewModelBase(IRegionManager regionManager)
         {
             RegionManager = regionManager;
+            
         }
 
         public virtual void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
@@ -29,7 +33,9 @@ namespace MossWPF.Core.Mvvm
 
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            NavigationService = navigationContext.NavigationService;
         }
+
+        
     }
 }
