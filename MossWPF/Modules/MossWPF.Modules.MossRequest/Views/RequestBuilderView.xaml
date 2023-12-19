@@ -276,11 +276,11 @@
             Grid.Column="2"
             Margin="0,16,0,16"
             VerticalAlignment="Top"
-            Command="{Binding NavigateCommand}"
+            Command="{Binding GoForwardCommand}"
             CommandParameter="ResultsBrowser"
             Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
-            Visibility="{Binding GoForwardButtonVisibility}">
-            <materialDesign:PackIcon Kind="ArrowRight" />
+            Visibility="{Binding GoForwardButtonVisibility}" Background="{DynamicResource SecondLevelBlueSurfaceBrush}" BorderThickness="2">
+            <materialDesign:PackIcon Kind="ArrowRight" Width="28" Height="28" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" />
         </Button>
         <materialDesign:Snackbar
             x:Name="MainSnackbar"
