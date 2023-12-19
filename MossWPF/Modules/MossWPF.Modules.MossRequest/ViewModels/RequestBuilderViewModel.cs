@@ -26,7 +26,7 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         private readonly IAppConfiguration _config;
         private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _eventAggregator;
-
+        IRegionNavigationJournal _journal;
         private string _submissionsDirectory;
         private string _defaultFilesLocation;
 
@@ -98,6 +98,10 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         private DelegateCommand _showBaseFilesCommand;
         private DelegateCommand _clearFilesCommand;
         private DelegateCommand<string> _navigateCommand;
+        private DelegateCommand _goForwardCommand;
+
+        public DelegateCommand GoForwardCommand =>
+            _goForwardCommand ??= new DelegateCommand(ExecuteGoForwardCommand, CanGoForward);
 
         public DelegateCommand<string> NavigateCommand =>
             _navigateCommand ??= new DelegateCommand<string>(Navigate);
@@ -126,7 +130,12 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         #endregion Commands
 
         #region Actions
-        
+
+        void ExecuteGoForwardCommand()
+        {
+            _journal.GoForward();
+        }
+
         async void ExecuteOpenBaseFileCommand()
         {
             OpenMultipleFilesDialogArguments arguments = new()
@@ -265,6 +274,20 @@ namespace MossWPF.Modules.MossRequest.ViewModels
             Files = MossSubmission.SourceFiles;
         }
 
+        private bool CanGoForward()
+        {
+            if (_journal != null && _journal.CanGoForward)
+            {
+                GoForwardButtonVisibility = Visibility.Visible;
+                return true;
+            }
+            else
+            {
+                GoForwardButtonVisibility = Visibility.Collapsed;
+                return false;
+            }
+        }
+
         private string GetFileTypeFilter()
         {
             var filterStringBuilder = new StringBuilder();
@@ -313,17 +336,20 @@ namespace MossWPF.Modules.MossRequest.ViewModels
 
         private void Navigate(string uri)
         {
-            var p = new NavigationParameters
+            var p = new NavigationParameters();
+            if (Response is not null)
             {
-                { NavigationParameterKeys.MossSubmission, MossSubmission },
-                { NavigationParameterKeys.ResultsLink, Response.Trim('\0').Trim() }
-            };
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, uri, p);
+                p.Add(NavigationParameterKeys.MossSubmission, MossSubmission);
+                p.Add(NavigationParameterKeys.ResultsLink, Response.Trim('\0').Trim());
+            }
+            NavigationService.RequestNavigate(uri, p);
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
+            _journal = navigationContext.NavigationService.Journal;
+            GoForwardCommand.RaiseCanExecuteChanged();
             if (navigationContext.Parameters.ContainsKey(NavigationParameterKeys.MossSubmission))
             {
                 MossSubmission = navigationContext.Parameters.GetValue<MossSubmission>(NavigationParameterKeys.MossSubmission);
@@ -339,8 +365,6 @@ namespace MossWPF.Modules.MossRequest.ViewModels
                 if (userSettings.DefaultFilesLocation != null)
                     _defaultFilesLocation = userSettings.DefaultFilesLocation;
             }
-
-            GoForwardButtonVisibility = NavigationService.Journal.CanGoForward ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public static async Task UploadFileAsync(string file, int id, string lang, StreamWriter fileWriter)

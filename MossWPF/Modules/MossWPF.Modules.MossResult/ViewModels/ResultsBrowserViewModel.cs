@@ -1,12 +1,9 @@
 ﻿using MossWPF.Core;
-using MossWPF.Core.Events;
 using MossWPF.Core.Mvvm;
 using MossWPF.Domain;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using Prism.Regions;
-using System;
 using System.Windows;
 
 namespace MossWPF.Modules.MossResult.ViewModels
@@ -15,6 +12,7 @@ namespace MossWPF.Modules.MossResult.ViewModels
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
+        IRegionNavigationJournal _journal;
 
         private string _resultsSource;
         public string ResultsSource
@@ -37,6 +35,29 @@ namespace MossWPF.Modules.MossResult.ViewModels
             set { SetProperty(ref _mossSubmission, value); }
         }
 
+        private DelegateCommand _goBackCommand;
+        public DelegateCommand GoBackCommand =>
+            _goBackCommand ??= new DelegateCommand(ExecuteGoBackCommand, CanGoBack);
+
+        private bool CanGoBack()
+        {
+            if (_journal != null && _journal.CanGoBack)
+            {
+                GoBackButtonVisibility = Visibility.Visible;
+                return true;
+            }
+            else
+            {
+                GoBackButtonVisibility = Visibility.Collapsed;
+                return false;
+            }
+        }
+
+        void ExecuteGoBackCommand()
+        {
+            _journal.GoBack();
+        }
+
         private DelegateCommand<string> _navigateCommand;
 
         public DelegateCommand<string> NavigateCommand =>
@@ -45,13 +66,14 @@ namespace MossWPF.Modules.MossResult.ViewModels
         public ResultsBrowserViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager)
         {
             _regionManager = regionManager;
-           //eventAggregator.GetEvent<BackNavigationEvent>().Subscribe(BackNavigate);
             _eventAggregator = eventAggregator;
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
+            _journal = navigationContext.NavigationService.Journal;
+            GoBackCommand.RaiseCanExecuteChanged();
             if(navigationContext.Parameters.ContainsKey(NavigationParameterKeys.ResultsLink))
             {
                 ResultsSource = navigationContext.Parameters.GetValue<string>(NavigationParameterKeys.ResultsLink);
@@ -60,9 +82,6 @@ namespace MossWPF.Modules.MossResult.ViewModels
             {
                 MossSubmission = navigationContext.Parameters.GetValue<MossSubmission>(NavigationParameterKeys.MossSubmission);
             }
-
-            GoBackButtonVisibility = NavigationService.Journal.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
-            //_eventAggregator.GetEvent<CanNavigateBackEvent>().Publish(true);
         }
 
         
@@ -72,7 +91,7 @@ namespace MossWPF.Modules.MossResult.ViewModels
             {
                 {NavigationParameterKeys.MossSubmission, MossSubmission }
             };
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, "RequestBuilderView", p);
+            _journal.GoBack();
         }
 
     }
