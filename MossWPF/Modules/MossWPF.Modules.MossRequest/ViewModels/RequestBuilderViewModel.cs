@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -145,7 +146,7 @@ namespace MossWPF.Modules.MossRequest.ViewModels
                 ShowHiddenFilesAndDirectories = false,
                 ShowSystemFilesAndDirectories = false,
                 SwitchPathPartsAsButtonsEnabled = true,
-                CurrentDirectory = _config.UserOptions.DefaultFilesLocation,
+                CurrentDirectory = _defaultFilesLocation,
                 Filters = GetFileTypeFilter()
             };
             var info = await OpenMultipleFilesDialog.ShowDialogAsync("FileExplorerDialogHost", arguments);
@@ -208,37 +209,31 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         async void ExecuteSendRequest()
         {
             IsBusy = true;
-            bool success = await Task.Run(() =>
+            MossSocketResult mossCommResult = null;
+
+            using var mossComm = new MossCommunication(MossSubmission, _config);
+            if ((await HandleCommError(() => mossComm.TryConnectAsync())).Success)
             {
-                using var mossComm = new MossCommunication(MossSubmission, _config);
-                if (mossComm.TryConnect(out string errorMessage))
+                if ((await HandleCommError(() => mossComm.TrySendOptions())).Success)
                 {
-                    mossComm.SendOptions();
-                    if (mossComm.TryReceiveResponse(512, out string response, out string receceptionError))
+                    mossCommResult = await HandleCommError(() => mossComm.TryReceiveResponseAsync());
+                    if (mossCommResult.Success)
                     {
-                        MossSubmission.SetResultLink(response);
-                        Response = response;
-                        Debug.WriteLine(response);
-                    }
-                    else
-                    {
-                        _eventAggregator.GetEvent<SnackbarMessageEvent>().Publish(receceptionError);
-                        return false;
+                        MossSubmission.SetResultLink(mossCommResult.Response);
+                        Response = mossCommResult.Response;
                     }
                 }
-                else
-                {
-                    _eventAggregator.GetEvent<SnackbarMessageEvent>().Publish(errorMessage);
-                    return false;
-                }
-                mossComm.Disconnect();
-                return true;
-            });
-            IsBusy = false;
-            if (success)
-            {
-                Navigate("ResultsBrowser");
             }
+
+            Debug.WriteLine((await mossComm.DisconnectAsync()).ErrorMessage ?? "Socket disconnected successfully");
+
+            IsBusy = false;
+
+            MossSubmission.DateSubmitted = DateTime.Now;
+            if (mossCommResult is not null && mossCommResult.Success)
+                Navigate("ResultsBrowser");
+            
+            
         }
 
         private DelegateCommand _snackBarTestCommand;
@@ -253,7 +248,11 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         #endregion
 
 
-        public RequestBuilderViewModel(IRegionManager regionManager, IAppConfiguration config, IEventAggregator eventAggregator, ISnackbarMessageQueue snackbarMessageQueue) :
+        public RequestBuilderViewModel(
+            IRegionManager regionManager,
+            IAppConfiguration config,
+            IEventAggregator eventAggregator,
+            ISnackbarMessageQueue snackbarMessageQueue) :
             base(regionManager)
         {
            SnackbarMessageQueue = snackbarMessageQueue;
@@ -264,14 +263,37 @@ namespace MossWPF.Modules.MossRequest.ViewModels
 
             MossSubmission = new MossSubmission()
             {
+                Id = Guid.NewGuid(),
                 Sensitivity = config.MossDefaultOptions.MaxAppearances,
                 ResultsToShow = config.MossDefaultOptions.ResultsToDisplay,
                 SourceFiles = new ObservableCollection<FileListItem>(),
-                BaseFiles = new ObservableCollection<FileListItem>()
+                BaseFiles = new ObservableCollection<FileListItem>(),
+                DateCreated = DateTime.Now
 
             };
             Languages = new List<ProgrammingLanguage>(config.ProgrammingLanguages);
             Files = MossSubmission.SourceFiles;
+            _eventAggregator.GetEvent<SaveSubmissionEvent>().Subscribe(async () => await SaveSubmissionAsync());
+        }
+
+        private async Task SaveSubmissionAsync()
+        {
+            var submissionService = new SubmissionService();
+            var path = !string.IsNullOrWhiteSpace(_submissionsDirectory) ? _submissionsDirectory : Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            await submissionService.SaveSubmissionAsync(MossSubmission, path);
+        }
+
+        private async Task<MossSocketResult> HandleCommError(Func<Task<MossSocketResult>> communicationAction)
+        {
+            var result = await communicationAction();
+            if (!result.Success)
+            {
+                _eventAggregator.GetEvent<SnackbarMessageEvent>().Publish(result.ErrorMessage);
+                
+            }
+            return result;
+                
+            
         }
 
         private bool CanGoForward()
@@ -352,8 +374,7 @@ namespace MossWPF.Modules.MossRequest.ViewModels
             GoForwardCommand.RaiseCanExecuteChanged();
             if (navigationContext.Parameters.ContainsKey(NavigationParameterKeys.MossSubmission))
             {
-                MossSubmission = navigationContext.Parameters.GetValue<MossSubmission>(NavigationParameterKeys.MossSubmission);
-                _eventAggregator.GetEvent<CanNavigateForwardEvent>().Publish(true);
+                MossSubmission = navigationContext.Parameters.GetValue<MossSubmission>(NavigationParameterKeys.MossSubmission);             
             }
             else if (navigationContext.Parameters.ContainsKey(NavigationParameterKeys.UserSettings))
             {

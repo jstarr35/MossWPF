@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MossWPF.Data;
 
@@ -10,9 +11,10 @@ using MossWPF.Data;
 namespace MossWPF.Data.Migrations
 {
     [DbContext(typeof(MossDbContext))]
-    partial class MossDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240102055929_AddFilePercentageScores")]
+    partial class AddFilePercentageScores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.25");

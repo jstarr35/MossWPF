@@ -1,16 +1,27 @@
 ﻿using AngleSharp.Html.Parser;
 using MossWPF.Domain.DTOs;
-using MossWPF.Domain.Models;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 
 namespace MossWPF.Services
 {
-    public class ResultParser
+    public interface IResultParser
     {
-        static async Task<string> DownloadHtmlAsync(string url)
+        Task<string> DownloadHtmlAsync(string url);
+        Task<List<ResultTableItem>> ExtractItemsAndHrefs(string html);
+    }
+    public class ResultParser : IResultParser
+    {
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public ResultParser(IHttpClientFactory httpClientFactory)
         {
-            using var client = new HttpClient();
+            _httpClientFactory = httpClientFactory;
+        }
+
+        public async Task<string> DownloadHtmlAsync(string url)
+        {
+            using var client = _httpClientFactory.CreateClient();
             try
             {
                 // Download HTML content
@@ -19,18 +30,17 @@ namespace MossWPF.Services
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine($"Error downloading HTML: {ex.Message}");
-                return null;
+                return $"Error downloading HTML: {ex.Message}";
             }
         }
-        
-        public static async Task<List<ResultTableItem>> ExtractItemsAndHrefs(string html)
+
+        public async Task<List<ResultTableItem>> ExtractItemsAndHrefs(string html)
         {
             var filePairs = new List<ResultTableItem>();
 
             var parser = new HtmlParser();
             var document = await parser.ParseDocumentAsync(html);
-            
+
 
             // Assuming the table is the first table in the document
             var table = document.QuerySelector("table");

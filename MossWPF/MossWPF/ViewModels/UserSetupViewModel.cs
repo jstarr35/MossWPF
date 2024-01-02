@@ -83,13 +83,11 @@ namespace MossWPF.ViewModels
                 switch (type)
                 {
                     case "SubmissionsDirectory":
-                        _config.UserOptions.SubmissionsDirectory = info.Directory;
                         Properties.Settings.Default.SubmissionsDirectory = info.Directory;
                         SubmissionsDirectory = info.Directory;
                         Properties.Settings.Default.Save();
                         break;
                     case "DefaultFilesLocation":
-                        _config.UserOptions.DefaultFilesLocation = info.Directory;
                         Properties.Settings.Default.DefaultFileLocation = info.Directory;
                         DefaultFilesLocation = info.Directory;
                         Properties.Settings.Default.Save();

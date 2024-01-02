@@ -111,6 +111,13 @@ namespace MossWPF.Domain
             set => SetProperty(ref _dateSubmitted, value);
         }
 
+        private DateTime _dateCreated;
+        public DateTime DateCreated
+        {
+            get => _dateCreated;
+            set => SetProperty(ref _dateCreated, value);
+        }
+
         private ObservableCollection<FileListItem> _sourceFiles;
         public ObservableCollection<FileListItem> SourceFiles
         {
