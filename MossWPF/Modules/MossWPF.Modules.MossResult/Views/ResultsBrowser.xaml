@@ -15,6 +15,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="48" />
         </Grid.ColumnDefinitions>
+        
         <Button
             Margin="0,16,0,16"
             VerticalAlignment="Top"
@@ -32,8 +33,13 @@
         </Button>
         <Grid
             Grid.Column="1"
+            Grid.Row="0"
             MaxWidth="980"
             MaxHeight="700">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="72"/>
+            </Grid.RowDefinitions>
             <Border
                 Background="{DynamicResource DarkBlueControlSurfaceBrush}"
                 BorderBrush="{DynamicResource DarkBlueControlSurfaceBrush}"
@@ -41,6 +47,13 @@
                 CornerRadius="4,4,4,4">
                 <WebBrowser rm:WebBrowserUtility.BindableSource="{Binding ResultsSource}" />
             </Border>
+            <Button HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1" Style="{DynamicResource MaterialDesignRaisedButton}" Command="{Binding SaveResultsCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ContentSave" Margin="4" VerticalAlignment="Bottom"/>
+                    <TextBlock Text="SAVE RESULTS" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
         </Grid>
+       
     </Grid>
 </UserControl>

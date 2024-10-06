@@ -4,13 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace MossWPF.Domain
 {
-    public class UserOptions
-    {
-        public string UserId { get; set; }
-        public string Theme { get; set; }
-        public string SubmissionsDirectory { get; set; }
-        public string DefaultFilesLocation { get; set; }
-    }
+    
 
     public class MossDefaultOptions
     {
@@ -24,6 +18,9 @@ namespace MossWPF.Domain
     {
         public string Server { get; set; }
         public int Port { get; set; }
+        public int ReceiveTimeout { get; set; }
+        public int SendTimeout { get; set; }
+        public int ReplySize { get; set; }
     }
 
     public class ScriptSettings
@@ -42,7 +39,7 @@ namespace MossWPF.Domain
 
     public interface IAppConfiguration
     {
-        UserOptions UserOptions { get; set; }
+        //UserOptions UserOptions { get; set; }
         MossDefaultOptions MossDefaultOptions { get; set; }
         ServerSettings ServerSettings { get; set; }
         ScriptSettings ScriptSettings { get; set; }
@@ -51,7 +48,7 @@ namespace MossWPF.Domain
 
     public class AppConfigurationProxy : IAppConfiguration
     {
-        public UserOptions UserOptions { get; set; }
+        //public UserOptions UserOptions { get; set; }
         public MossDefaultOptions MossDefaultOptions { get; set; }
         public ServerSettings ServerSettings { get; set; }
         public ScriptSettings ScriptSettings { get; set; }
@@ -60,7 +57,7 @@ namespace MossWPF.Domain
 
     public class AppConfiguration : IAppConfiguration
     {
-        public UserOptions UserOptions { get; set; }
+        //public UserOptions UserOptions { get; set; }
         public MossDefaultOptions MossDefaultOptions { get; set; }
         public ServerSettings ServerSettings { get; set; }
         public ScriptSettings ScriptSettings { get; set; }
@@ -69,7 +66,7 @@ namespace MossWPF.Domain
         {
             var settings = File.ReadAllText("appsettings.json");
             var config = JsonSerializer.Deserialize<AppConfigurationProxy>(settings);
-            UserOptions = config.UserOptions;
+           // UserOptions = config.UserOptions;
             MossDefaultOptions = config.MossDefaultOptions;
             ServerSettings = config.ServerSettings;
             ScriptSettings = config.ScriptSettings;
@@ -85,7 +82,7 @@ namespace MossWPF.Domain
             _filePath = filePath;
             var settings = File.ReadAllText(filePath);
             var config = JsonSerializer.Deserialize<AppConfigurationProxy>(settings);
-            UserOptions = config.UserOptions;
+           // UserOptions = config.UserOptions;
             MossDefaultOptions = config.MossDefaultOptions;
             ServerSettings = config.ServerSettings;
             ScriptSettings = config.ScriptSettings;

@@ -1,0 +1,86 @@
+﻿<UserControl
+    x:Class="MossWPF.Core.Dialogs.UserSetupDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MossWPF.Core.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    Width="353"
+    Height="409"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <Border
+        Background="{DynamicResource ThirdLevelBlueSurfaceBrush}"
+        BorderBrush="{DynamicResource TanAccentBrush}"
+        BorderThickness="4"
+        CornerRadius="4,4,4,4">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Margin="0,8,0,8"
+                HorizontalAlignment="Center"
+                FontSize="22"
+                FontWeight="Bold"
+                Text="Registration" />
+            <RichTextBox
+                Grid.Row="1"
+                MinWidth="280"
+                Padding="8"
+                AcceptsReturn="False"
+                IsDocumentEnabled="True"
+                IsReadOnly="True"
+                SpellCheck.IsEnabled="True"
+                VerticalScrollBarVisibility="Auto">
+                <FlowDocument LineHeight="20">
+                    <Paragraph>
+                        <Run>Use of this tool requires a Moss account.</Run>
+                        <LineBreak />
+                        <Run>Email moss@moss.stanford.edu for a User ID</Run>
+                        <LineBreak />
+                        <Run>The body of the message should appear exactly as follows:</Run>
+
+                    </Paragraph>
+                    <Paragraph Padding="8,0,0,0">
+                        <Run>registeruser</Run>
+                        <LineBreak />
+                        <Run>mail</Run>
+                        <Run FontStyle="Italic">username@domain</Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run>Replacing the text in italics with your email address.</Run>
+                    </Paragraph>
+                    <Paragraph Padding="0,16,0,0" BorderThickness="0,2,0,0">
+                        <Paragraph.BorderBrush>
+                            <SolidColorBrush Color="{DynamicResource ColorEerieBlack}" />
+                        </Paragraph.BorderBrush>
+                        <Run>Enter your User ID below.</Run>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <TextBox
+                x:Name="UserIdTextBox"
+                Grid.Row="2"
+                Margin="32,8,32,8"
+                md:HintAssist.Hint="User ID"
+                Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                Text="{Binding UserId}" />
+            <Button
+                x:Name="OkButton"
+                Grid.Row="3"
+                Margin="0,8,0,8"
+                HorizontalAlignment="Center"
+                Command="{Binding CloseDialogCommand}"
+                Content="OK"
+                Style="{DynamicResource MaterialDesignRaisedButton}" />
+
+        </Grid>
+    </Border>
+</UserControl>

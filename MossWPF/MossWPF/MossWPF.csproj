@@ -9,15 +9,19 @@
     <None Remove="Resources\mlogo.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="DryIoc.Microsoft.DependencyInjection.Extension" Version="1.0.0.2" />
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
+    <PackageReference Include="MaterialDesignExtensionsR" Version="40.0.8" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="Prism.Unity" Version="8.1.97" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MossWPF.Data\MossWPF.Data.csproj" />
     <ProjectReference Include="..\Modules\MossWPF.Modules.MossResult\MossWPF.Modules.MossResult.csproj" />
     <ProjectReference Include="..\MossWPF.Core\MossWPF.Core.csproj" />
     <ProjectReference Include="..\Modules\MossWPF.Modules.MossRequest\MossWPF.Modules.MossRequest.csproj" />

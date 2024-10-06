@@ -24,6 +24,7 @@
                         Foreground="{DynamicResource MaterialDesignDarkForeground}"
                         Header="M">
                         <MenuItem
+                            Command="{Binding SaveSubmissionCommand}"
                             FontFamily="Roboto"
                             FontSize="14"
                             Header="Save"
