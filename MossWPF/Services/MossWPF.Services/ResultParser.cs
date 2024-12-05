@@ -1,15 +1,13 @@
-﻿using AngleSharp.Html.Parser;
+﻿using AngleSharp.Dom;
+using AngleSharp.Html.Parser;
 using MossWPF.Domain.DTOs;
+using MossWPF.Domain.Services;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 
 namespace MossWPF.Services
 {
-    public interface IResultParser
-    {
-        Task<string> DownloadHtmlAsync(string url);
-        Task<List<ResultTableItem>> ExtractItemsAndHrefs(string html);
-    }
+    
     public class ResultParser : IResultParser
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -99,6 +97,22 @@ namespace MossWPF.Services
                 // Extract the percentage from the third capturing group
                 percentage = int.Parse(match.Groups[3].Value);
             }
+        }
+
+         static void RemoveFontTags(IElement element)
+        {
+            var fontElements = element.QuerySelectorAll("font");
+            foreach (var fontElement in fontElements)
+            {
+                fontElement.Remove();
+            }
+        }
+
+        static string ExtractFontContent(IElement element)
+        {
+            var fontElements = element.QuerySelectorAll("font");
+            var fontContent = string.Join(Environment.NewLine, fontElements.Select(font => font.TextContent));
+            return fontContent;
         }
     }
 }

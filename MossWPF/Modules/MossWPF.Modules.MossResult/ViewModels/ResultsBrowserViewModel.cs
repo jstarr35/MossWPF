@@ -7,6 +7,7 @@ using MossWPF.Services;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -102,6 +103,7 @@ namespace MossWPF.Modules.MossResult.ViewModels
             if(navigationContext.Parameters.ContainsKey(NavigationParameterKeys.ResultsLink))
             {
                 ResultsSource = navigationContext.Parameters.GetValue<string>(NavigationParameterKeys.ResultsLink);
+                Debug.WriteLine(ResultsSource);
             }
             if (navigationContext.Parameters.ContainsKey(NavigationParameterKeys.MossSubmission))
             {
