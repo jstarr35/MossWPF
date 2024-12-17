@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MossWPF.Core.Events
 {
-    public class BackNavigationEvent : PubSubEvent<string>
+    public class RequestInitializationEvent : PubSubEvent<Dictionary<string,string>>
     {
     }
 }

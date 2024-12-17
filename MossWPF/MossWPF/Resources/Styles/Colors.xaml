@@ -124,6 +124,7 @@
     <Color x:Key="BluePrimaryLightHue">#7f9df5</Color>
     <Color x:Key="GreenAccent">#68d391</Color>
     <Color x:Key="RoseAccent">#f56565</Color>
+    <Color x:Key="TanAccent">#a8a8a8</Color>
 
     <SolidColorBrush x:Key="DarkBlueControlSurfaceBrush" Color="{DynamicResource DarkBlueControlSurface}" />
     <SolidColorBrush
@@ -133,5 +134,6 @@
     <SolidColorBrush x:Key="LightBlueAccentSurfaceBrush" Color="{DynamicResource LightBlueAccentSurface}" />
     <SolidColorBrush x:Key="SecondLevelBlueSurfaceBrush" Color="{DynamicResource SecondLevelBlueSurface}" />
     <SolidColorBrush x:Key="ThirdLevelBlueSurfaceBrush" Color="{DynamicResource ThirdLevelBlueSurface}" />
-    <SolidColorBrush x:Key="BluePrimaryHueBrush" Color="{DynamicResource BluePrimaryHue}"/>
+    <SolidColorBrush x:Key="BluePrimaryHueBrush" Color="{DynamicResource BluePrimaryHue}" />
+    <SolidColorBrush x:Key="TanAccentBrush" Color="{DynamicResource TanAccent}" />
 </ResourceDictionary>

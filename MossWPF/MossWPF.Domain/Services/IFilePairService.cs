@@ -1,9 +1,9 @@
 ﻿using MossWPF.Domain.Models;
 
-namespace MossWPF.Services.Interfaces
+namespace MossWPF.Domain.Services
 {
     public interface IFilePairService : IDataService<FilePair>
     {
-        Task<FilePair> GetFilePairAsync();
+        
     }
 }

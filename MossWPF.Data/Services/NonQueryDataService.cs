@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MossWPF.Domain.Models;
 
-namespace MossWPF.Data.Services.Common
+namespace MossWPF.Data.Services
 {
     public class NonQueryDataService<T> where T : MossObject
     {
@@ -15,7 +15,7 @@ namespace MossWPF.Data.Services.Common
 
         public async Task<T> Create(T entity)
         {
-            using(MossDbContext context = _contextFactory.CreateDbContext())
+            using (MossDbContext context = _contextFactory.CreateDbContext())
             {
                 EntityEntry<T> createdResult = await context.Set<T>().AddAsync(entity);
                 await context.SaveChangesAsync();

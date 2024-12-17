@@ -1,6 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using MaterialDesignExtensions.Controls;
-using System.Windows;
+﻿using MaterialDesignExtensions.Controls;
 
 namespace MossWPF.Views
 {
@@ -13,5 +11,7 @@ namespace MossWPF.Views
         {
             InitializeComponent();
         }
+
+
     }
 }

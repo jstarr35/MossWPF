@@ -4,10 +4,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MossWPF.Core\MossWPF.Core.csproj" />
     <ProjectReference Include="..\..\MossWPF.Domain\MossWPF.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\MossWPF.Services\MossWPF.Services.csproj" />
   </ItemGroup>
 </Project>

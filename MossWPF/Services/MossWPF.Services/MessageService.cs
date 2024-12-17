@@ -1,4 +1,4 @@
-﻿using MossWPF.Services.Interfaces;
+﻿using MossWPF.Domain.Services;
 
 namespace MossWPF.Services
 {

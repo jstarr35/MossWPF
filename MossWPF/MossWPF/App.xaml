@@ -20,6 +20,7 @@
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
                         <ResourceDictionary Source="pack://application:,,,/MossWPF;component/Resources/Styles/Colors.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MossWPF;component/Resources/Styles/DrawerToggle.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                     <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{DynamicResource EtonBlue}" />
                     <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="{DynamicResource EerieBlack}" />

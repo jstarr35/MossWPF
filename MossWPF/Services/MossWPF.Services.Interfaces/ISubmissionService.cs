@@ -1,4 +1,4 @@
-﻿using MossWPF.Domain;
+﻿using MossWPF.Domain.Models;
 
 namespace MossWPF.Services.Interaces
 {

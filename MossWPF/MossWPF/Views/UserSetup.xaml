@@ -1,0 +1,205 @@
+﻿<UserControl
+    x:Class="MossWPF.Views.UserSetup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MossWPF.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:rules="clr-namespace:MossWPF.Core.Validation;assembly=MossWPF.Core"
+    xmlns:viewmodels="clr-namespace:MossWPF.ViewModels"
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+    MinWidth="640"
+    MinHeight="800"
+    HorizontalContentAlignment="Center"
+    d:DataContext="{d:DesignInstance Type=viewmodels:UserSetupViewModel}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="Margin" Value="8,28" />
+            <Setter Property="MinWidth" Value="316" />
+            <Setter Property="Height" Value="52" />
+            <Setter Property="wpf:TextFieldAssist.TextBoxViewMargin" Value="0" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Column="1"
+            Margin="16"
+            HorizontalAlignment="Center"
+            FontSize="22"
+            FontWeight="Bold"
+            Text="Setup" />
+
+        <StackPanel Grid.Row="1"  Orientation="Horizontal" Grid.Column="1">
+            <md:PackIcon
+                Width="32"
+                Height="32"
+                Margin="24,8,8,8"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource BrushCoolGrey}"
+                Kind="User" />
+            <TextBox x:Name="UserIdTextBox" md:HintAssist.Hint="User ID">
+                <TextBox.Text>
+                    <Binding Path="UserId" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <rules:UserIdValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+        <!--<mde:TextBoxOpenDirectory DialogHost="{Binding FileExplorerDialogHost}" Grid.Row="2" Grid.Column="1" Width="200" Margin="0,8,0,0">
+            <mde:TextBoxOpenDirectory.DialogArgs>
+                <mde:OpenDirectoryDialogArguments Width="600" Height="500" />
+            </mde:TextBoxOpenDirectory.DialogArgs>
+            <mde:TextBoxOpenDirectory.TextBoxStyle>
+                <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <Setter Property="md:HintAssist.Hint" Value="Choose a directory" />
+                </Style>
+            </mde:TextBoxOpenDirectory.TextBoxStyle>
+        </mde:TextBoxOpenDirectory>-->
+        <StackPanel  Grid.Row="2" Orientation="Horizontal" Grid.Column="1">
+            <Button
+                Width="48"
+                Height="48"
+                Margin="16,8,0,8"
+                Padding="8,4,8,4"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Command="{Binding ChooseDirectoryCommand}"
+                CommandParameter="SubmissionsDirectory"
+                Style="{DynamicResource MaterialDesignFlatButton}">
+                <md:PackIcon
+                    Width="32"
+                    Height="32"
+                    Kind="Folder" />
+            </Button>
+            <TextBox x:Name="LocalWorkingDirectoryTextBox" md:HintAssist.Hint="Working Directory (Optional)">
+                <TextBox.Text>
+                    <Binding Path="SubmissionsDirectory" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <rules:FolderPathValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="3"
+            Grid.RowSpan="1"
+            Grid.Column="1"
+            Orientation="Horizontal">
+
+            <Button
+                Grid.Row="3"
+                Width="48"
+                Height="48"
+                Margin="16,8,0,8"
+                Padding="8,4,8,4"
+                HorizontalAlignment="Right"
+                Command="{Binding ChooseDirectoryCommand}"
+                CommandParameter="DefaultFilesLocation"
+                Style="{DynamicResource MaterialDesignFlatButton}">
+                <md:PackIcon
+                    Width="32"
+                    Height="32"
+                    Kind="Folder" />
+
+            </Button>
+            <TextBox x:Name="CodeSubmissionsDirectoryTextBox" md:HintAssist.Hint="Code Submissions Directory (Optional)">
+                <TextBox.Text>
+                    <Binding Path="DefaultFilesLocation" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <rules:FolderPathValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+
+        <Button
+            x:Name="OkButton"
+            Grid.Row="4"
+            Grid.Column="1"
+            Grid.ColumnSpan="1"
+            Margin="4"
+            HorizontalAlignment="Center"
+            Command="{Binding AcceptCommand}"
+            Content="OK"
+            Style="{DynamicResource MaterialDesignRaisedButton}" />
+        <Expander
+            Grid.Row="5"
+            MinWidth="280"
+            MaxWidth="360"
+            Margin="16"
+            Grid.Column="1"
+            md:ExpanderAssist.HorizontalHeaderPadding="8,2,0,2"
+            Background="Transparent"
+            Header="Register for Moss Account">
+            <RichTextBox
+                Padding="8"
+                AcceptsReturn="False"
+                IsDocumentEnabled="True"
+                IsReadOnly="True"
+                SpellCheck.IsEnabled="True"
+                VerticalScrollBarVisibility="Auto">
+                <FlowDocument
+                    FontSize="13"
+                    FontWeight="Light"
+                    LineHeight="20">
+                    <FlowDocument.Resources>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Margin" Value="8" />
+                        </Style>
+                    </FlowDocument.Resources>
+                    <Paragraph>
+                        <Run Text="Send an email to " />
+                        <Underline>
+                            <Run Text="moss@moss.stanford.edu" />
+                        </Underline>
+                        <Run Text=" to receive a User ID number." />
+                    </Paragraph>
+                    <Paragraph>
+                        <Run>The body of the message should appear exactly as follows:</Run>
+                    </Paragraph>
+                    <Paragraph Padding="16,0">
+                        <Run>registeruser</Run>
+                        <LineBreak />
+                        <Run>mail</Run>
+                        <Run FontStyle="Italic">username@domain</Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run>Replacing the text in italics with your email address.</Run>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Expander>
+
+
+
+        <md:DialogHost Grid.RowSpan="6" Identifier="FileExplorerDialogHost" MinWidth="606" Grid.ColumnSpan="3" />
+    </Grid>
+
+</UserControl>

@@ -9,12 +9,13 @@
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\MossWPF.Domain\MossWPF.Domain.csproj" />
-    <ProjectReference Include="..\MossWPF.Services.Interfaces\MossWPF.Services.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

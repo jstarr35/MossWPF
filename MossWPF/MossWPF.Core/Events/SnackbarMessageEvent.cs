@@ -2,7 +2,7 @@
 
 namespace MossWPF.Core.Events
 {
-    public class CanNavigateBackEvent : PubSubEvent<bool>
+    public class SnackbarMessageEvent : PubSubEvent<string>
     {
     }
 }

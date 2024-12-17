@@ -7,6 +7,10 @@ using Microsoft.Extensions.Configuration;
 using MossWPF.Domain;
 using Prism.Events;
 using MossWPF.Core.Events;
+using MossWPF.Core.Dialogs;
+using MaterialDesignThemes.Wpf;
+using Prism.Services.Dialogs;
+using System.Windows.Navigation;
 
 namespace MossWPF.ViewModels
 {
@@ -19,47 +23,44 @@ namespace MossWPF.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
-        private bool _canNavigateBack;
-        public bool CanNavigateBack
+        private bool _isHelpOpen;
+        public bool IsHelpOpen
         {
-            get { return _canNavigateBack; }
-            set { SetProperty(ref _canNavigateBack, value); }
+            get => _isHelpOpen;
+            set => SetProperty(ref _isHelpOpen, value);
+        }
+
+        public ISnackbarMessageQueue NotificationMessageQueue { get; set; }
+
+        private DelegateCommand _saveSubmissionCommand;
+        public DelegateCommand SaveSubmissionCommand =>
+            _saveSubmissionCommand ??= new DelegateCommand(ExecuteSaveSubmissionCommand);
+
+        void ExecuteSaveSubmissionCommand()
+        {
+            _eventAggregator.GetEvent<SaveSubmissionEvent>().Publish();
         }
 
         private DelegateCommand<string> _navigateCommand;
         private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _eventAggregator;
-        private readonly IConfigurationRoot _config;
-        private readonly ServerSettings _serverSettings;
-        private readonly IAppConfiguration _appConfiguration;
+        private readonly IDialogService _dialogService;
+        
 
-        public DelegateCommand<string> NavigateCommand =>
-            _navigateCommand ??= new DelegateCommand<string>(ExecuteNavigateCommand);
-
-        private DelegateCommand _navigateBackCommand;
-        public DelegateCommand NavigateBackCommand =>
-            _navigateBackCommand ??= new DelegateCommand(ExecuteNavigateBackCommand);
-
-        void ExecuteNavigateBackCommand()
+        public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ISnackbarMessageQueue snackbarMessageQueue, IApplicationCommands applicationCommands, IDialogService dialogService)
         {
-            _eventAggregator.GetEvent<BackNavigationEvent>().Publish("RequestView");
-        }
-
-        public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IApplicationCommands applicationCommands, IAppConfiguration config)
-        {
+            NotificationMessageQueue = snackbarMessageQueue;
             _regionManager = regionManager;
-            applicationCommands.NavigateCommand.RegisterCommand(NavigateCommand);
-            _appConfiguration = config;
+           
             _eventAggregator = eventAggregator;
-            eventAggregator.GetEvent<CanNavigateBackEvent>().Subscribe((x) => { CanNavigateBack = x; });
+            eventAggregator.GetEvent<SnackbarMessageEvent>().Subscribe(QueueMessage);
+            
         }
 
-        void ExecuteNavigateCommand(string navigationPath)
+        private void QueueMessage(string obj)
         {
-            if (string.IsNullOrEmpty(navigationPath))
-                _regionManager.RequestNavigate(RegionNames.ContentRegion, "RequestBuilderView");
-            else
-                _regionManager.RequestNavigate(RegionNames.ContentRegion, navigationPath);
+            NotificationMessageQueue.Enqueue(obj);
         }
+
     }
 }

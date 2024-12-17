@@ -1,6 +1,6 @@
 ﻿using AngleSharp;
-using MossWPF.Domain;
-using MossWPF.Services.Interaces;
+using MossWPF.Domain.Models;
+using MossWPF.Domain.Services;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,7 +11,8 @@ namespace MossWPF.Services
     {
         public async Task SaveSubmissionAsync(MossSubmission submission, string path) 
         {
-            var fileName = Path.Combine(path, submission.DateSubmitted.ToString("u").Replace(':', '.') + ".json");
+            var date = (submission.DateSubmitted < submission.DateCreated) ? submission.DateCreated : submission.DateSubmitted;
+            var fileName = Path.Combine(path, date.ToString("u").Replace(':', '.') + ".json");
             using var fs = new FileStream(fileName, FileMode.Create);
             var options = new JsonSerializerOptions
             {
