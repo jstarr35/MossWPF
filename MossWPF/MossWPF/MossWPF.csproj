@@ -15,10 +15,15 @@
     <PackageReference Include="MaterialDesignExtensionsR" Version="40.0.8" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MossWPF.Data\MossWPF.Data.csproj" />
@@ -26,7 +31,6 @@
     <ProjectReference Include="..\MossWPF.Core\MossWPF.Core.csproj" />
     <ProjectReference Include="..\Modules\MossWPF.Modules.MossRequest\MossWPF.Modules.MossRequest.csproj" />
     <ProjectReference Include="..\MossWPF.Domain\MossWPF.Domain.csproj" />
-    <ProjectReference Include="..\Services\MossWPF.Services.Interfaces\MossWPF.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Services\MossWPF.Services\MossWPF.Services.csproj" />
   </ItemGroup>
   <ItemGroup>

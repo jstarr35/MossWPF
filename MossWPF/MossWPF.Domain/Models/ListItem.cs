@@ -1,7 +1,7 @@
 ﻿using Prism.Mvvm;
 using System.Text.Json.Serialization;
 
-namespace MossWPF.Domain
+namespace MossWPF.Domain.Models
 {
     public class ListItem : BindableBase
     {

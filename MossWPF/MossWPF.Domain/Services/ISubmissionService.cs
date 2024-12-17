@@ -1,6 +1,6 @@
 ﻿using MossWPF.Domain.Models;
 
-namespace MossWPF.Services.Interaces
+namespace MossWPF.Domain.Services
 {
     public interface ISubmissionService
     {

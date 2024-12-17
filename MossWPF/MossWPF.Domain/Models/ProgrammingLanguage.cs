@@ -1,4 +1,4 @@
-﻿namespace MossWPF.Domain
+﻿namespace MossWPF.Domain.Models
 {
     public class ProgrammingLanguage
     {

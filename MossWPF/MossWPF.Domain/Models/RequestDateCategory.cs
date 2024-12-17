@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace MossWPF.Domain
+namespace MossWPF.Domain.Models
 {
     public sealed class RequestDateCategory
     {

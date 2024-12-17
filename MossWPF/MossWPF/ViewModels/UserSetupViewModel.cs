@@ -1,7 +1,7 @@
 ﻿using MaterialDesignExtensions.Controls;
 using MossWPF.Core;
 using MossWPF.Core.Mvvm;
-using MossWPF.Domain;
+using MossWPF.Domain.Configurations;
 using MossWPF.Domain.DTOs;
 using Prism.Commands;
 using Prism.Regions;

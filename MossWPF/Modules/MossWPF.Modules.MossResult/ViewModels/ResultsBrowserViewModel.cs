@@ -1,6 +1,5 @@
 ﻿using MossWPF.Core;
 using MossWPF.Core.Mvvm;
-using MossWPF.Domain;
 using MossWPF.Domain.Models;
 using MossWPF.Domain.Services;
 using MossWPF.Services;

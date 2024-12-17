@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MossWPF.Domain.Services;
+using MossWPF.Services;
 
 namespace MossWPF.Configuration
 {
@@ -15,10 +17,10 @@ namespace MossWPF.Configuration
             services.Configure<T>(section);
             services.AddTransient<IWritableOptions<T>>(provider =>
             {
-                
                 var configuration = (IConfigurationRoot)provider.GetService<IConfiguration>();
                 var options = provider.GetService<IOptionsMonitor<T>>();
-                return new WritableOptions<T>(options, configuration, section.Key, file);
+                var logger = provider.GetService<ILogger<WritableOptions<T>>>();
+                return new WritableOptions<T>(options, configuration, section.Key, file, logger);
             });
         }
     }

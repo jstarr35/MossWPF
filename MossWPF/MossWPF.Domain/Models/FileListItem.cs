@@ -1,4 +1,6 @@
-﻿namespace MossWPF.Domain
+﻿using MossWPF.Domain.Enums;
+
+namespace MossWPF.Domain.Models
 {
     public class FileListItem : ListItem
     {

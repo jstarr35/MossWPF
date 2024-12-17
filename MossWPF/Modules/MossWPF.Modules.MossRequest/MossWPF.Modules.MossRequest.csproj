@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\MossWPF.Core\MossWPF.Core.csproj" />
     <ProjectReference Include="..\..\MossWPF.Domain\MossWPF.Domain.csproj" />
-    <ProjectReference Include="..\..\Services\MossWPF.Services.Interfaces\MossWPF.Services.Interfaces.csproj" />
     <ProjectReference Include="..\..\Services\MossWPF.Services\MossWPF.Services.csproj" />
   </ItemGroup>
 </Project>

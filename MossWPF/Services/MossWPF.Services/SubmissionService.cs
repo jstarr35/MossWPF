@@ -1,6 +1,6 @@
 ﻿using AngleSharp;
-using MossWPF.Domain;
-using MossWPF.Services.Interaces;
+using MossWPF.Domain.Models;
+using MossWPF.Domain.Services;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;

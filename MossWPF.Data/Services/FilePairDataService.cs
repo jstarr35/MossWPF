@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MossWPF.Data.Services.Common;
 using MossWPF.Domain.Models;
 using MossWPF.Domain.Services;
 
@@ -29,7 +28,7 @@ namespace MossWPF.Data.Services
         public async Task<FilePair> Get(int id)
         {
             using MossDbContext context = _contextFactory.CreateDbContext();
-            FilePair entity = await context.FilesPairs.FirstOrDefaultAsync();
+            FilePair entity = await context.FilesPairs.FirstOrDefaultAsync() ?? new FilePair();
             return entity;
         }
 

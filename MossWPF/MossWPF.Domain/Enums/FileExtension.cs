@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MossWPF.Domain
+namespace MossWPF.Domain.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum FileExtension
