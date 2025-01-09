@@ -6,7 +6,7 @@ namespace MossWPF.Domain.Models
     public class MossSubmission : BindableBase
     {
         public Guid Id { get; set; }
-
+        public int SubmissionId { get; set; }
         private bool _isLanguageSelected;
         public bool IsLanguageSelected
         {
@@ -89,18 +89,42 @@ namespace MossWPF.Domain.Models
             set => SetProperty(ref _dateCreated, value);
         }
 
-        private ObservableCollection<FileListItem> _sourceFiles;
-        public ObservableCollection<FileListItem> SourceFiles
+        private List<FileListItem> _sourceFiles = new();
+        public List<FileListItem> SourceFiles
         {
             get => _sourceFiles;
             set => SetProperty(ref _sourceFiles, value);
         }
 
-        private ObservableCollection<FileListItem> _baseFiles;
-        public ObservableCollection<FileListItem> BaseFiles
+        private List<FileListItem> _baseFiles = new();
+        public List<FileListItem> BaseFiles
         {
             get => _baseFiles;
             set => SetProperty(ref _baseFiles, value);
+        }
+
+        public void AddToSourceFiles(IEnumerable<FileListItem> items)
+        {
+            _sourceFiles.AddRange(items);
+            RaisePropertyChanged(nameof(SourceFiles)); // Notify UI of the change
+        }
+
+        public void AddToBaseFiles(IEnumerable<FileListItem> items)
+        {
+            _baseFiles.AddRange(items);
+            RaisePropertyChanged(nameof(BaseFiles)); // Notify UI of the change
+        }
+
+        public void ClearSourceFiles()
+        {
+            _sourceFiles.Clear();
+            RaisePropertyChanged(nameof(SourceFiles)); // Notify UI of the change
+        }
+
+        public void ClearBaseFiles()
+        {
+            _baseFiles.Clear();
+            RaisePropertyChanged(nameof(BaseFiles)); // Notify UI of the change
         }
 
         private Uri? _resultsLink;
@@ -115,10 +139,11 @@ namespace MossWPF.Domain.Models
             Uri.TryCreate(link, UriKind.Absolute, out _resultsLink);
         }
 
-
         public MossSubmission()
         {
-
+            Id = Guid.NewGuid();
+            DateCreated = DateTime.Now;
         }
+
     }
 }

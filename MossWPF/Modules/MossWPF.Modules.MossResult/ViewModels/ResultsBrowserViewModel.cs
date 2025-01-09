@@ -1,8 +1,8 @@
 ﻿using MossWPF.Core;
 using MossWPF.Core.Mvvm;
+using MossWPF.Domain.Entities;
 using MossWPF.Domain.Models;
 using MossWPF.Domain.Services;
-using MossWPF.Services;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -17,7 +17,9 @@ namespace MossWPF.Modules.MossResult.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         private readonly IFilePairService _filePairService;
-        private readonly ISubmissionFileService _submissionFileService;
+        private readonly ISubmissionService _submissionService;
+        private readonly IDataService<File> _fileService;
+        private readonly IDataService<FileComparison> _fileComparisonService;
         private readonly IResultParser _resultParser;
         IRegionNavigationJournal _journal;
 
@@ -83,15 +85,19 @@ namespace MossWPF.Modules.MossResult.ViewModels
             IRegionManager regionManager,
             IEventAggregator eventAggregator,
             IFilePairService filePairService,
-            ISubmissionFileService submissionFileService,
-            IResultParser resultParser)
+            ISubmissionService submissionFileService,
+            IResultParser resultParser,
+            IDataService<File> fileService,
+            IDataService<FileComparison> fileComparisonService)
             : base(regionManager)
         {
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
             _filePairService = filePairService;
-            _submissionFileService = submissionFileService;
+            _submissionService = submissionFileService;
             _resultParser = resultParser;
+            _fileService = fileService;
+            _fileComparisonService = fileComparisonService;
         }
 
         public override async void OnNavigatedTo(NavigationContext navigationContext)
@@ -128,23 +134,23 @@ namespace MossWPF.Modules.MossResult.ViewModels
                 var results = await _resultParser.ExtractItemsAndHrefs(html);
                 foreach (var result in results)
                 {
-                    var first = new SubmissionFile() { FilePath = result.FirstFilePath, SubmissionId = MossSubmission.Id };
-                    var firstEntity = await _submissionFileService.Create(first);
-                    var second = new SubmissionFile() { FilePath = result.SecondFilePath, SubmissionId = MossSubmission.Id };
-                    var secondEntity = await _submissionFileService.Create(second);
-                    var filePair = new FilePair()
+                    var first = new File() { FilePath = result.FirstFilePath, SubmissionId = MossSubmission.SubmissionId };
+                    var firstEntity = await _fileService.Create(first);
+                    var second = new File () { FilePath = result.SecondFilePath, SubmissionId = MossSubmission.SubmissionId };
+                    var secondEntity = await _fileService.Create(second);
+                    var filePair = new FileComparison()
                     {
                         //FirstFile = firstEntity,
-                        FirstFileId = firstEntity.Id,
+                        File1Id = firstEntity.Id,
                         //SecondFile = secondEntity,
-                        SecondFileId = secondEntity.Id,
-                        FirstFilePercentageScore = result.FirstFileScore,
-                        SecondFilePercentageScore = result.SecondFileScore,
-                        LinesMatched = result.LinesMatched,
-                        Link = result.Link,
-                        SubmissionId = MossSubmission.Id
+                        File2Id = secondEntity.Id,
+                        File1MatchPct = result.FirstFileScore,
+                        File2MatchPct = result.SecondFileScore,
+                        //LinesMatched = result.LinesMatched,
+                        ComparisonUrl = result.Link,
+                        SubmissionId = MossSubmission.SubmissionId
                     };
-                    await _filePairService.Create(filePair);
+                    await _fileComparisonService.Create(filePair);
                 } 
             }
         }

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using MossWPF.Domain.Models;
+using MossWPF.Domain.Entities;
 
 namespace MossWPF.Data.Services
 {
-    public class NonQueryDataService<T> where T : MossObject
+    public class NonQueryDataService<T> where T : EntityBase
     {
         private readonly MossDbContextFactory _contextFactory;
 

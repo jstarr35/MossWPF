@@ -82,8 +82,8 @@ namespace MossWPF.Modules.MossRequest.ViewModels
             set { SetProperty(ref _mossSubmission, value); }
         }
 
-        private ObservableCollection<FileListItem> _files;
-        public ObservableCollection<FileListItem> Files
+        private List<FileListItem> _files;
+        public List<FileListItem> Files
         {
             get { return _files; }
             set { SetProperty(ref _files, value); }
@@ -108,10 +108,10 @@ namespace MossWPF.Modules.MossRequest.ViewModels
 
         public DelegateCommand<string> NavigateCommand =>
             _navigateCommand ??= new DelegateCommand<string>(Navigate);
-        
+
         public DelegateCommand ClearFilesCommand =>
             _clearFilesCommand ??= new DelegateCommand(ExecuteClearFilesCommand, CanClearFiles)
-            .ObservesProperty(() => Files)
+            .ObservesProperty(() => MossSubmission.SourceFiles)
             .ObservesProperty(() => MossSubmission.BaseFiles);
 
         public DelegateCommand ShowBaseFilesCommand =>
@@ -154,8 +154,9 @@ namespace MossWPF.Modules.MossRequest.ViewModels
             var info = await OpenMultipleFilesDialog.ShowDialogAsync("FileExplorerDialogHost", arguments);
             if (!info.Canceled)
             {
-                info.Files.ForEach(f => MossSubmission.BaseFiles.Add(new FileListItem(f, 'B')));
-                Files = MossSubmission?.BaseFiles;
+                var newFiles = info.Files.Select(f => new FileListItem(f, 'B'));
+                MossSubmission.AddToBaseFiles(newFiles);
+                Files = MossSubmission?.BaseFiles; // Update Files for binding
             }
         }
         
@@ -191,8 +192,8 @@ namespace MossWPF.Modules.MossRequest.ViewModels
                     fileListItems = files.Select(y => y.FullName).Except(MossSubmission.SourceFiles.Select(x => x.Name)).Select(f => new FileListItem(f, 'S'));
                 }
 
-                MossSubmission.SourceFiles.AddRange(fileListItems);
-                Files = MossSubmission?.SourceFiles;
+                MossSubmission.AddToSourceFiles(fileListItems);
+                Files = MossSubmission?.SourceFiles; // Update Files for binding
                 if (MossSubmission.SourceFiles.Any())
                 {
                     SendRequestCommand.RaiseCanExecuteChanged();
@@ -203,8 +204,8 @@ namespace MossWPF.Modules.MossRequest.ViewModels
         
         void ExecuteClearFilesCommand()
         {
-            MossSubmission.BaseFiles.Clear();
-            MossSubmission.SourceFiles.Clear();
+            MossSubmission.ClearBaseFiles();
+            MossSubmission.ClearSourceFiles();
             ClearFilesCommand.RaiseCanExecuteChanged();
         }
 
@@ -265,12 +266,8 @@ namespace MossWPF.Modules.MossRequest.ViewModels
 
             MossSubmission = new MossSubmission()
             {
-                Id = Guid.NewGuid(),
                 Sensitivity = config.MossDefaultOptions.MaxAppearances,
-                ResultsToShow = config.MossDefaultOptions.ResultsToDisplay,
-                SourceFiles = new ObservableCollection<FileListItem>(),
-                BaseFiles = new ObservableCollection<FileListItem>(),
-                DateCreated = DateTime.Now
+                ResultsToShow = config.MossDefaultOptions.ResultsToDisplay
 
             };
             Languages = new List<ProgrammingLanguage>(config.ProgrammingLanguages);

@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MossWPF.Domain.Models;
+using MossWPF.Domain.Entities;
 using MossWPF.Domain.Services;
-using MossWPF.Services.Interfaces;
 
 namespace MossWPF.Data.Services
 {
 
-    public class GenericDataService<T> : IDataService<T> where T : MossObject
+    public class GenericDataService<T> : IDataService<T> where T : EntityBase
     {
         private readonly MossDbContextFactory _contextFactory;
         private readonly NonQueryDataService<T> _nonQueryDataService;

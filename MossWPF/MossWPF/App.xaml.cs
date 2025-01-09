@@ -73,8 +73,9 @@ namespace MossWPF
             services.AddSingleton<IAppConfiguration, AppConfiguration>();
             services.AddSingleton<IApplicationCommands, ApplicationCommands>();
             services.AddSingleton<IMessageService, MessageService>();
-            services.AddSingleton<IFilePairService, FilePairDataService>();
-            services.AddSingleton<ISubmissionFileService, SubmissionFileDataService>();
+            //services.AddSingleton<IFilePairService, FilePairDataService>();
+            //services.AddSingleton<ISubmissionFileService, SubmissionFileDataService>();
+            services.AddSingleton(typeof(GenericDataService<>));
 
             // Build the service provider
             var serviceProvider = services.BuildServiceProvider();
@@ -87,7 +88,7 @@ namespace MossWPF
             containerRegistry.RegisterInstance(serviceProvider.GetRequiredService<IApplicationCommands>());
             containerRegistry.RegisterInstance(serviceProvider.GetRequiredService<IMessageService>());
             containerRegistry.RegisterInstance(serviceProvider.GetRequiredService<IFilePairService>());
-            containerRegistry.RegisterInstance(serviceProvider.GetRequiredService<ISubmissionFileService>());
+            //containerRegistry.RegisterInstance(serviceProvider.GetRequiredService<ISubmissionFileService>());
 
             containerRegistry.RegisterForNavigation<UserSetup, UserSetupViewModel>();
         }
